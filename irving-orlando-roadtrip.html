@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Irving → Orlando · Road Trip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#07253A;
+  --ink-soft:#3D5A6C;
+  --paper:#EEF4F3;
+  --card:#FFFFFF;
+  --line:#CFDEDC;
+
+  --gulf:#14808C;
+  --spring:#3FAE9A;
+  --park:#6B5CA5;
+  --sun:#EF7548;
+
+  --phase:var(--gulf);
+
+  --display:"Bricolage Grotesque",system-ui,sans-serif;
+  --body:"Instrument Sans",system-ui,sans-serif;
+  --mono:"DM Mono",ui-monospace,monospace;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:92px;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.05;}
+p{margin:0 0 .9rem;}
+a{color:inherit;}
+
+.wrap{max-width:940px;margin:0 auto;padding:0 24px;}
+
+/* ---------- HERO ---------- */
+.hero{
+  background:var(--ink);
+  color:#EAF3F2;
+  padding:64px 0 0;
+  position:relative;
+  overflow:hidden;
+}
+.eyebrow{
+  font-family:var(--mono);
+  font-size:.72rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:#7FB5B8;
+  margin-bottom:18px;
+}
+.hero h1{
+  font-size:clamp(2.9rem,9vw,5.4rem);
+  font-weight:800;
+  letter-spacing:-.035em;
+}
+.hero h1 .arrow{color:var(--spring);font-weight:400;}
+.hero-sub{
+  font-size:1.05rem;
+  color:#A9C6C8;
+  max-width:44ch;
+  margin-top:20px;
+}
+.facts{
+  display:flex;
+  flex-wrap:wrap;
+  gap:34px;
+  margin:40px 0 0;
+  padding:26px 0;
+  border-top:1px solid rgba(255,255,255,.14);
+}
+.fact-k{
+  font-family:var(--mono);
+  font-size:.68rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#6F9EA2;
+  display:block;
+  margin-bottom:5px;
+}
+.fact-v{font-family:var(--display);font-size:1.28rem;font-weight:600;}
+
+/* route strip */
+.strip{display:flex;align-items:center;gap:0;padding:0 0 54px;flex-wrap:wrap;row-gap:14px;}
+.node{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:.74rem;letter-spacing:.05em;color:#C9E0E0;white-space:nowrap;}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--nc,#fff);flex:none;}
+.seg{flex:1;min-width:22px;height:2px;background:linear-gradient(90deg,var(--a),var(--b));opacity:.75;margin:0 12px;}
+
+/* ---------- NAV ---------- */
+.nav{
+  position:sticky;top:0;z-index:20;
+  background:rgba(238,244,243,.93);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{display:flex;gap:8px;overflow-x:auto;padding:12px 24px;max-width:940px;margin:0 auto;scrollbar-width:none;}
+.nav-inner::-webkit-scrollbar{display:none;}
+.nav a{
+  flex:none;
+  font-family:var(--mono);
+  font-size:.72rem;
+  letter-spacing:.06em;
+  text-decoration:none;
+  padding:7px 13px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--ink-soft);
+  transition:background .15s,color .15s,border-color .15s;
+}
+.nav a:hover,.nav a:focus-visible{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+/* ---------- DAYS ---------- */
+main{padding:56px 0 0;}
+.day{
+  display:grid;
+  grid-template-columns:96px 1fr;
+  gap:0 26px;
+  position:relative;
+}
+.rail{position:relative;padding-top:6px;}
+.rail::after{
+  content:"";
+  position:absolute;
+  left:23px;top:58px;bottom:-46px;
+  width:2px;
+  background:var(--phase);
+  opacity:.28;
+}
+.day:last-of-type .rail::after{display:none;}
+.marker{
+  width:48px;height:48px;border-radius:50%;
+  background:var(--phase);
+  color:#fff;
+  display:grid;place-items:center;
+  font-family:var(--display);
+  font-weight:700;
+  font-size:1.02rem;
+  letter-spacing:-.02em;
+  position:relative;z-index:2;
+}
+.rail-date{
+  font-family:var(--mono);
+  font-size:.66rem;
+  letter-spacing:.1em;
+  color:var(--ink-soft);
+  margin-top:10px;
+  text-transform:uppercase;
+}
+
+.body-col{padding-bottom:46px;min-width:0;}
+.day h2{
+  font-size:clamp(1.55rem,4vw,2.15rem);
+  font-weight:700;
+  letter-spacing:-.025em;
+  margin-bottom:8px;
+}
+.tag{
+  display:inline-block;
+  font-family:var(--mono);
+  font-size:.66rem;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:var(--phase);
+  border:1px solid currentColor;
+  border-radius:999px;
+  padding:3px 10px;
+  margin-bottom:14px;
+}
+
+/* drive leg */
+.leg{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--mono);
+  font-size:.76rem;
+  color:var(--ink-soft);
+  background:#fff;
+  border:1px dashed var(--line);
+  border-radius:10px;
+  padding:9px 14px;
+  margin:0 0 18px;
+}
+.leg svg{flex:none;}
+
+/* cards */
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px 22px;
+  margin:0 0 16px;
+}
+.card h3{
+  font-size:.98rem;
+  font-weight:700;
+  letter-spacing:-.01em;
+  margin-bottom:12px;
+  display:flex;align-items:center;gap:9px;
+}
+.card h3::before{
+  content:"";width:7px;height:7px;border-radius:2px;
+  background:var(--phase);flex:none;
+}
+.card p:last-child{margin-bottom:0;}
+
+/* hours block */
+.hours{
+  background:var(--ink);
+  color:#DCEBEA;
+  border-radius:14px;
+  padding:18px 22px;
+  margin:0 0 16px;
+}
+.hours-t{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;
+  text-transform:uppercase;color:#7FB5B8;margin-bottom:12px;
+}
+.hrow{display:flex;justify-content:space-between;gap:16px;padding:6px 0;border-top:1px solid rgba(255,255,255,.1);font-size:.9rem;}
+.hrow:first-of-type{border-top:0;}
+.hrow b{font-family:var(--mono);font-weight:500;color:#fff;white-space:nowrap;}
+
+/* place list */
+.places{list-style:none;padding:0;margin:0;display:grid;gap:12px;}
+.places li{display:grid;grid-template-columns:auto 1fr;gap:11px;align-items:start;}
+.pin{
+  width:20px;height:20px;border-radius:50%;
+  background:color-mix(in srgb,var(--phase) 15%,#fff);
+  color:var(--phase);
+  display:grid;place-items:center;
+  font-family:var(--mono);font-size:.6rem;font-weight:500;
+  margin-top:3px;flex:none;
+}
+.places strong{font-weight:600;}
+.places span{color:var(--ink-soft);font-size:.94rem;}
+
+ul.steps{margin:0;padding-left:1.05rem;}
+ul.steps li{margin-bottom:.6rem;}
+ul.steps li:last-child{margin-bottom:0;}
+
+.note{
+  border-left:3px solid var(--phase);
+  padding:2px 0 2px 15px;
+  color:var(--ink-soft);
+  font-size:.93rem;
+  margin:16px 0 0;
+}
+.warn{
+  background:#FFF4EE;
+  border:1px solid #F6D5C4;
+  border-radius:12px;
+  padding:14px 18px;
+  font-size:.93rem;
+  margin:0 0 16px;
+  color:#8A3E1C;
+}
+.warn b{color:#6E2E12;}
+
+/* ---------- CLOSER ---------- */
+.closer{background:var(--ink);color:#DCEBEA;margin-top:30px;padding:64px 0 70px;}
+.closer h2{font-size:1.9rem;font-weight:700;color:#fff;margin-bottom:26px;letter-spacing:-.02em;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.pane{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:22px 24px;}
+.pane h3{font-size:.95rem;color:#fff;margin-bottom:13px;}
+.pane ul{margin:0;padding-left:1.05rem;font-size:.93rem;color:#B9D3D4;}
+.pane ul li{margin-bottom:.6rem;}
+.pane ul li:last-child{margin-bottom:0;}
+.pane strong{color:#fff;font-weight:600;}
+.foot{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255,255,.13);font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#6F9EA2;}
+
+:focus-visible{outline:2px solid var(--spring);outline-offset:3px;border-radius:4px;}
+
+@media (max-width:680px){
+  .day{grid-template-columns:52px 1fr;gap:0 14px;}
+  .rail::after{left:24px;}
+  .marker{width:44px;height:44px;font-size:.92rem;}
+  .rail-date{font-size:.6rem;letter-spacing:.04em;}
+  .grid2{grid-template-columns:1fr;}
+  .facts{gap:24px;}
+  .card,.hours{padding:17px 18px;}
+  .hrow{flex-direction:column;gap:2px;}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  *{transition:none!important;}
+}
+@media print{
+  .nav{display:none;}
+  body{background:#fff;}
+  .hero,.closer{background:#fff;color:#000;}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">September 4 – 10, 2026</div>
+    <h1>Irving <span class="arrow">→</span><br>Orlando</h1>
+    <p class="hero-sub">Six days across the Gulf Coast, the freshwater springs, three Universal parks, and one Atlantic sunrise before turning back west.</p>
+
+    <div class="facts">
+      <div><span class="fact-k">Crew</span><span class="fact-v">3 adults, all driving</span></div>
+      <div><span class="fact-k">Distance</span><span class="fact-v">≈ 2,200 mi round trip</span></div>
+      <div><span class="fact-k">Home by</span><span class="fact-v">Thu Sep 10, 4:00 PM</span></div>
+    </div>
+
+    <div class="strip">
+      <div class="node"><span class="dot" style="--nc:#14808C"></span>Irving</div>
+      <div class="seg" style="--a:#14808C;--b:#14808C"></div>
+      <div class="node"><span class="dot" style="--nc:#14808C"></span>Destin</div>
+      <div class="seg" style="--a:#14808C;--b:#3FAE9A"></div>
+      <div class="node"><span class="dot" style="--nc:#3FAE9A"></span>Lake City</div>
+      <div class="seg" style="--a:#3FAE9A;--b:#6B5CA5"></div>
+      <div class="node"><span class="dot" style="--nc:#6B5CA5"></span>Orlando</div>
+      <div class="seg" style="--a:#6B5CA5;--b:#EF7548"></div>
+      <div class="node"><span class="dot" style="--nc:#EF7548"></span>Ormond</div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Jump to day">
+  <div class="nav-inner">
+    <a href="#d1">Fri · Depart</a>
+    <a href="#d2">Sat · Destin</a>
+    <a href="#d3">Sun · Springs</a>
+    <a href="#d4">Mon · Epic</a>
+    <a href="#d5">Tue · IOA + Studios</a>
+    <a href="#d6">Wed · Ormond</a>
+    <a href="#d7">Thu · Home</a>
+    <a href="#info">Tickets &amp; hacks</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- DAY 1 -->
+  <section class="day" id="d1" style="--phase:var(--gulf)">
+    <div class="rail"><div class="marker">Fri</div><div class="rail-date">Sep 4</div></div>
+    <div class="body-col">
+      <span class="tag">Overnight drive</span>
+      <h2>Roll out of Irving</h2>
+      <p>Leave Irving at <strong>9:00 PM</strong> and drive through the night in shifts toward the Gulf Coast. Three drivers means nobody does more than a four-hour stretch.</p>
+      <div class="leg">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        Irving → Destin · 12 hrs · 690 mi
+      </div>
+    </div>
+  </section>
+
+  <!-- DAY 2 -->
+  <section class="day" id="d2" style="--phase:var(--gulf)">
+    <div class="rail"><div class="marker">Sat</div><div class="rail-date">Sep 5</div></div>
+    <div class="body-col">
+      <span class="tag">Emerald Coast</span>
+      <h2>Destin beach day</h2>
+      <p>Arrive around <strong>9–10 AM</strong> and go straight to the sand. Sugar-white beach, clear green-blue water. Do the bulk of your relaxing by mid-afternoon so the evening drive isn't rough on no sleep.</p>
+
+      <div class="card">
+        <h3>Where to go in Destin</h3>
+        <ul class="places">
+          <li><span class="pin">1</span><div><strong>Henderson Beach State Park</strong> <span>— the cleanest, least crowded stretch of white sand in Destin. $6 per car. This is the one to settle in at for the day.</span></div></li>
+          <li><span class="pin">2</span><div><strong>Destin Harbor Boardwalk</strong> <span>— open 24 hrs. Shops, food, harbor views, and the launch point for dolphin cruises and jet ski rentals.</span></div></li>
+          <li><span class="pin">3</span><div><strong>HarborWalk Village</strong> <span>— lively waterfront hub for dinner and drinks. Parking runs about $20.</span></div></li>
+          <li><span class="pin">4</span><div><strong>Gator Beach</strong> <span>— free alligator shows and hold-a-baby-gator photos. Quick, odd, fun break from the beach.</span></div></li>
+        </ul>
+      </div>
+
+      <div class="leg">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        Destin → Lake City · 3.5 hrs on I-10 · check in late evening
+      </div>
+
+      <p class="note">Saturday means beaches and beach-town lodging fill up. Book the Lake City hotel ahead of time.</p>
+    </div>
+  </section>
+
+  <!-- DAY 3 -->
+  <section class="day" id="d3" style="--phase:var(--spring)">
+    <div class="rail"><div class="marker">Sun</div><div class="rail-date">Sep 6</div></div>
+    <div class="body-col">
+      <span class="tag">Freshwater springs</span>
+      <h2>Ginnie Springs, all day</h2>
+      <p>Tubing the Santa Fe River, snorkeling, and swimming in water that sits at <strong>72°F year-round</strong>. Privately owned, roughly <strong>$25 per adult</strong>, with tube, mask, and paddleboard rentals on site.</p>
+
+      <div class="card">
+        <h3>Good to know</h3>
+        <p>A new alcohol and open-container policy took effect in April 2026, so expect it calmer than the party reputation it used to have. Bring water shoes and a dry bag.</p>
+      </div>
+
+      <div class="card">
+        <h3>If you'd rather have quiet over busy</h3>
+        <ul class="places">
+          <li><span class="pin">A</span><div><strong>Ichetucknee Springs</strong> <span>— widely called the best tubing run in Florida. State park, so more rules and fewer rentals, and it fills up on weekends.</span></div></li>
+          <li><span class="pin">B</span><div><strong>Gilchrist Blue Springs</strong> <span>— right next door to Ginnie. Quieter, cheaper, excellent snorkeling.</span></div></li>
+        </ul>
+      </div>
+
+      <div class="leg">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        Springs → Orlando · 2 hrs · check in near Universal at night
+      </div>
+    </div>
+  </section>
+
+  <!-- DAY 4 -->
+  <section class="day" id="d4" style="--phase:var(--park)">
+    <div class="rail"><div class="marker">Mon</div><div class="rail-date">Sep 7</div></div>
+    <div class="body-col">
+      <span class="tag">Universal · Day 1</span>
+      <h2>Epic Universe</h2>
+
+      <div class="hours">
+        <div class="hours-t">Official hours · Sep 7</div>
+        <div class="hrow"><span>Epic Universe</span><b>10:00 AM – 8:00 PM</b></div>
+        <div class="hrow"><span>Early Park Admission</span><b>9:00 AM</b></div>
+        <div class="hrow"><span>CityWalk</span><b>8:00 AM – 12:00 AM</b></div>
+      </div>
+
+      <div class="card">
+        <h3>Ride order</h3>
+        <ul class="steps">
+          <li>With Early Park Admission, be at the gate by <strong>8:15 AM</strong>. Without it, <strong>9:15 AM</strong> for the 10 AM open.</li>
+          <li>Rope-drop the two biggest headliners: <strong>Stardust Racers</strong> in the Celestial Park hub and <strong>Battle at the Ministry</strong> in the Wizarding World. Open on one, hit the other immediately after.</li>
+          <li>Then <strong>Super Nintendo World</strong> (Mario Kart) and <strong>Isle of Berk</strong> — ride Hiccup's Wing Gliders in the morning.</li>
+          <li>Hit the low-capacity rides earlier than their small billing suggests: <strong>Constellation Carousel</strong>, <strong>Dragon Racer Rally</strong>, <strong>Mine Cart Madness</strong>.</li>
+          <li>Save <strong>Dark Universe</strong> for later but not last — Curse of the Werewolf builds a line through the afternoon.</li>
+          <li>Lunch in <strong>Celestial Park</strong>, the central hub. Stay until close; the park is at its best at night.</li>
+        </ul>
+      </div>
+
+      <div class="warn"><b>Battle at the Ministry breaks down often.</b> Keep checking the app even if it reads closed for good — it comes back online with no warning.</div>
+    </div>
+  </section>
+
+  <!-- DAY 5 -->
+  <section class="day" id="d5" style="--phase:var(--park)">
+    <div class="rail"><div class="marker">Tue</div><div class="rail-date">Sep 8</div></div>
+    <div class="body-col">
+      <span class="tag">Universal · Day 2</span>
+      <h2>Islands of Adventure + Studios</h2>
+
+      <div class="hours">
+        <div class="hours-t">Official hours · Sep 8</div>
+        <div class="hrow"><span>Islands of Adventure</span><b>9:00 AM – 8:00 PM</b></div>
+        <div class="hrow"><span>IOA Early Park Admission</span><b>8:00 AM</b></div>
+        <div class="hrow"><span>Universal Studios Florida</span><b>10:00 AM – 7:00 PM</b></div>
+        <div class="hrow"><span>Studios Early Admission</span><b>Not available</b></div>
+      </div>
+
+      <p>Studios closes at 7 and IOA at 8, so build the day to <strong>finish at Islands of Adventure</strong>.</p>
+
+      <div class="card">
+        <h3>How the day runs</h3>
+        <ul class="steps">
+          <li><strong>Morning — IOA at rope drop.</strong> <strong>Incredible Hulk Coaster</strong> and <strong>Hagrid's Magical Creatures Motorbike Adventure</strong> first; Hagrid's holds the longest line in the park. Then <strong>VelociCoaster</strong>, <strong>Forbidden Journey</strong>, and <strong>Skull Island: Reign of Kong</strong>.</li>
+          <li><strong>Midday — Hogwarts Express</strong> from Hogsmeade to Diagon Alley. It's a different show in each direction and needs the park-to-park ticket.</li>
+          <li><strong>Afternoon — Studios.</strong> <strong>Escape from Gringotts</strong>, <strong>Revenge of the Mummy</strong>, <strong>Hollywood Rip Ride Rockit</strong>, and the <strong>Minions</strong> rides.</li>
+          <li><strong>Evening — back to IOA</strong> on the Hogwarts Express before Studios closes, then ride your favorites until the 8 PM close. Confirm the last Express departure; it stops running when Studios shuts.</li>
+        </ul>
+      </div>
+
+      <div class="warn"><b>Jurassic Park River Adventure is closed</b> through Nov 19, 2026. Use the lockers at the other water rides instead. The Horror Make-Up Show at Studios is also likely still down.</div>
+
+      <div class="card">
+        <h3>Dinner at CityWalk</h3>
+        <ul class="places">
+          <li><span class="pin">1</span><div><strong>Toothsome Chocolate Emporium</strong> <span>— steampunk-themed and known for absurd milkshakes and desserts. Open until 10:30 PM.</span></div></li>
+          <li><span class="pin">2</span><div><strong>Bigfire</strong> <span>— wood-fired steaks if you want a proper sit-down meal to close out the parks.</span></div></li>
+        </ul>
+        <p class="note">Ending here sets you up for the early start on Wednesday.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DAY 6 -->
+  <section class="day" id="d6" style="--phase:var(--sun)">
+    <div class="rail"><div class="marker">Wed</div><div class="rail-date">Sep 9</div></div>
+    <div class="body-col">
+      <span class="tag">Atlantic sunrise → long haul</span>
+      <h2>Ormond Beach, then west</h2>
+      <p>Leave Orlando by <strong>5:45–6:00 AM</strong>. Ormond Beach is about an hour east. <strong>Sunrise lands at 7:05 AM</strong> over the Atlantic — the one thing on this trip the Gulf side can't give you.</p>
+
+      <div class="card">
+        <h3>Where to go in Ormond &amp; Daytona</h3>
+        <ul class="places">
+          <li><span class="pin">1</span><div><strong>Ormond / Daytona Beach</strong> <span>— hard-packed sand you can actually drive onto. Park facing east and watch the sun come up.</span></div></li>
+          <li><span class="pin">2</span><div><strong>Tomoka State Park</strong> <span>— quiet riverfront trails, wildlife, and Timucuan history a few minutes from the beach. Open from 8 AM.</span></div></li>
+          <li><span class="pin">3</span><div><strong>Daytona Boardwalk Amusements</strong> <span>— classic oceanfront boardwalk, rides and arcade, open from 9 AM.</span></div></li>
+          <li><span class="pin">4</span><div><strong>Daytona Aquarium &amp; Rainforest Adventure</strong> <span>— small but well done, with stingray feeding. A good air-conditioned break from midday heat.</span></div></li>
+        </ul>
+      </div>
+
+      <div class="warn"><b>Leave by 3:00 PM and drive straight through in shifts.</b> Ormond to Irving is 1,050 miles and about 15.5 hours. Stopping at a hotel overnight would leave 9–10 hours for Thursday and put the 4 PM arrival at risk. Rotating three drivers is both cheaper and safer for the deadline.</div>
+
+      <div class="leg">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+        Ormond → Irving · 15.5 hrs · 1,050 mi · overnight, no hotel
+      </div>
+    </div>
+  </section>
+
+  <!-- DAY 7 -->
+  <section class="day" id="d7" style="--phase:var(--sun)">
+    <div class="rail"><div class="marker">Thu</div><div class="rail-date">Sep 10</div></div>
+    <div class="body-col">
+      <span class="tag">Home</span>
+      <h2>Back in Irving</h2>
+      <p>Rolling in mid-morning to early afternoon, comfortably ahead of the 4 PM target.</p>
+    </div>
+  </section>
+
+</main>
+
+<section class="closer" id="info">
+  <div class="wrap">
+    <h2>Before you go</h2>
+    <div class="grid2">
+      <div class="pane">
+        <h3>Tickets &amp; setup</h3>
+        <ul>
+          <li>Buy a <strong>3-Park Park-to-Park ticket</strong>. It's required for the Hogwarts Express and for moving between parks on the same day.</li>
+          <li><strong>Express Pass pays off most at Epic Universe</strong> — more than at any other Universal park.</li>
+          <li>A Premier-tier hotel (Hard Rock, Portofino Bay, Royal Pacific) includes <strong>Express Pass Unlimited free</strong> for Studios and IOA, though usually not Epic Universe.</li>
+          <li>Download the <strong>Universal Orlando app</strong> and link tickets before you arrive — live waits, virtual queues, mobile food orders.</li>
+        </ul>
+      </div>
+      <div class="pane">
+        <h3>Hacks that actually move the needle</h3>
+        <ul>
+          <li><strong>Rope-drop both park days.</strong> The first two hours beat any paid skip-the-line.</li>
+          <li><strong>Two headliners first</strong>, then flex everything else around live wait times in the app.</li>
+          <li><strong>Use single-rider lines</strong> on VelociCoaster, Hulk, and Rip Ride Rockit. With three of you, an hour wait becomes ten minutes.</li>
+          <li><strong>Mobile-order lunch</strong> so you're not standing in a food line during peak ride hours.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot">Hours and closures verified against Universal Orlando's official park hours page</div>
+  </div>
+</section>
+
+</body>
+</html>
