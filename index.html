@@ -22,7 +22,14 @@
   --spring:#3FAE9A;
   --park:#6B5CA5;
   --sun:#EF7548;
+  /* text-safe counterparts: the bright accents above fail contrast as text
+     or as a background for white text, so anything legible uses these */
+  --gulf-deep:#0E6B75;
+  --spring-deep:#1E6E5F;
+  --park-deep:#5F5199;
+  --sun-deep:#A8461A;
   --phase:var(--gulf);
+  --phase-deep:var(--gulf-deep);
   --display:"Bricolage Grotesque",system-ui,sans-serif;
   --body:"Instrument Sans",system-ui,sans-serif;
   --mono:"DM Mono",ui-monospace,monospace;
@@ -36,12 +43,18 @@
   /* spacing scale */
   --s1:6px; --s2:10px; --s3:16px; --s4:24px; --s5:36px; --s6:56px;
   /* radii */
-  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-pill:999px;
+  --r-sm:8px; --r-md:12px; --r-card:14px; --r-lg:16px; --r-pill:999px;
   /* driver identity, consistent across both overnight legs */
-  --drv1:var(--gulf);
-  --drv2:var(--park);
-  --drv3:var(--spring);
+  --drv1:var(--gulf-deep);
+  --drv2:var(--park-deep);
+  --drv3:var(--spring-deep);
 }
+
+/* phase palette, set once per day / per panel */
+[data-phase="gulf"]{--phase:var(--gulf);--phase-deep:var(--gulf-deep);}
+[data-phase="spring"]{--phase:var(--spring);--phase-deep:var(--spring-deep);}
+[data-phase="park"]{--phase:var(--park);--phase-deep:var(--park-deep);}
+[data-phase="sun"]{--phase:var(--sun);--phase-deep:var(--sun-deep);}
 
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--tab-h) + var(--nav-h) + 12px);}
@@ -52,6 +65,15 @@ a{color:inherit;}
 button{font:inherit;cursor:pointer;}
 .wrap{max-width:940px;margin:0 auto;padding:0 24px;}
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+.skip{
+  position:fixed;left:12px;top:12px;z-index:60;
+  transform:translateY(-250%);
+  background:var(--card);color:var(--ink);text-decoration:none;
+  border:1px solid var(--line);border-radius:var(--r-pill);
+  padding:10px 18px;box-shadow:var(--shadow-md);
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;
+}
+.skip:focus{transform:translateY(0);}
 
 /* ===========================
    2. HERO
@@ -130,7 +152,7 @@ button{font:inherit;cursor:pointer;}
   border:1px solid rgba(255,255,255,.08);
   border-radius:var(--r-sm);
 }
-.fact-k{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#6F9EA2;display:block;margin-bottom:4px;}
+.fact-k{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#82AFB3;display:block;margin-bottom:4px;}
 .fact-v{font-family:var(--display);font-size:1.1rem;font-weight:600;color:#fff;}
 
 /* ===========================
@@ -152,7 +174,7 @@ button{font:inherit;cursor:pointer;}
 .sb-kicker{
   display:block;font-family:var(--mono);font-size:.63rem;
   letter-spacing:.16em;text-transform:uppercase;
-  color:var(--sb);margin-bottom:5px;
+  color:color-mix(in srgb,var(--sb) 72%,#fff);margin-bottom:5px;
 }
 .sb-title{
   display:block;font-family:var(--display);font-weight:700;
@@ -176,7 +198,7 @@ button{font:inherit;cursor:pointer;}
 .sb-btn.primary:hover{filter:brightness(1.08);background:var(--sb);}
 
 /* route strip (road trip tab) */
-.strip{display:flex;align-items:center;gap:0;padding:28px 0 14px;flex-wrap:wrap;row-gap:14px;}
+.strip{display:flex;align-items:center;gap:0;padding:6px 0 16px;flex-wrap:wrap;row-gap:14px;}
 .node{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:.74rem;letter-spacing:.05em;color:var(--ink-soft);white-space:nowrap;font-weight:500;}
 .dot{width:10px;height:10px;border-radius:50%;background:var(--nc,#ccc);flex:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--nc,#ccc) 20%,var(--paper));}
 .seg{flex:1;min-width:22px;height:2px;background:linear-gradient(90deg,var(--a),var(--b));opacity:.45;margin:0 14px;}
@@ -214,11 +236,11 @@ button{font:inherit;cursor:pointer;}
    =========================== */
 .tab-panel{display:none;}
 .tab-panel.active{display:block;}
-.tab-panel:focus{outline:none;}
+.tab-panel:focus:not(:focus-visible){outline:none;}
 .park-panel{display:none;}
 .park-panel.active{display:block;}
-.park-panel{--phase:var(--park);}
-#tab-prep{--phase:var(--gulf);}
+.park-panel{--phase:var(--park);--phase-deep:var(--park-deep);}
+#tab-prep{--phase:var(--gulf);--phase-deep:var(--gulf-deep);}
 
 /* ===========================
    6. PARK BAR
@@ -266,21 +288,21 @@ button{font:inherit;cursor:pointer;}
   padding:16px 16px 16px 56px;
   background:var(--card);
   border:1px solid var(--line);
-  border-radius:14px;
+  border-radius:var(--r-card);
   transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
 }
 .rides li:hover{
-  border-color:color-mix(in srgb,var(--park) 28%,var(--line));
+  border-color:color-mix(in srgb,var(--phase) 28%,var(--line));
   box-shadow:var(--shadow-sm);
 }
 .rides li::before{
   content:counter(rides);
   position:absolute;left:14px;top:16px;
   width:32px;height:32px;border-radius:50%;
-  background:linear-gradient(145deg,#7E6FB8,var(--park));
+  background:linear-gradient(145deg,var(--phase-deep),color-mix(in srgb,var(--phase-deep) 80%,var(--ink)));
   color:#fff;display:grid;place-items:center;
   font-family:var(--display);font-weight:700;font-size:.84rem;
-  box-shadow:0 2px 8px rgba(107,92,165,.28);
+  box-shadow:0 2px 8px color-mix(in srgb,var(--phase) 30%,transparent);
 }
 .ride-name{font-weight:600;font-size:1.05rem;line-height:1.3;letter-spacing:-.01em;}
 .ride-loc{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:4px 0 5px;}
@@ -290,16 +312,16 @@ button{font:inherit;cursor:pointer;}
   font-family:var(--mono);font-size:.58rem;letter-spacing:.07em;text-transform:uppercase;
   padding:3px 9px;border-radius:var(--r-pill);font-weight:500;
 }
-.rbadge.rope{background:#FFF4EE;color:#C4572A;border:1px solid rgba(196,87,42,.12);}
+.rbadge.rope{background:#FFF4EE;color:#A94E22;border:1px solid rgba(169,78,34,.16);}
 .rbadge.sr{background:#E8F8F4;color:#1A7A67;border:1px solid rgba(26,122,103,.1);}
-.rbadge.exp{background:#EDE8F5;color:var(--park);border:1px solid rgba(107,92,165,.12);}
+.rbadge.exp{background:#EDE8F5;color:var(--park-deep);border:1px solid rgba(107,92,165,.16);}
 
 /* ===========================
    9. TIME BLOCKS
    =========================== */
 .time-block{
   font-family:var(--display);font-size:1rem;font-weight:700;
-  color:var(--phase);margin:var(--s5) 0 14px;
+  color:var(--phase-deep);margin:var(--s5) 0 14px;
   display:flex;align-items:center;gap:12px;
 }
 .time-block::after{content:"";flex:1;height:1px;background:var(--line);}
@@ -309,7 +331,7 @@ button{font:inherit;cursor:pointer;}
    =========================== */
 .food-area{
   font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--phase);margin:18px 0 8px;display:inline-block;
+  color:var(--phase-deep);margin:18px 0 8px;display:inline-block;
   background:color-mix(in srgb,var(--phase) 7%,var(--paper));
   padding:4px 10px;border-radius:var(--r-sm);
   font-weight:500;
@@ -322,7 +344,7 @@ button{font:inherit;cursor:pointer;}
 .switch-link{
   display:inline-flex;align-items:center;gap:8px;
   font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;
-  color:var(--phase);text-decoration:none;
+  color:var(--phase-deep);text-decoration:none;
   padding:13px 20px;
   background:linear-gradient(135deg,color-mix(in srgb,var(--phase) 5%,#fff),color-mix(in srgb,var(--phase) 9%,#fff));
   border:1px solid color-mix(in srgb,var(--phase) 18%,var(--line));
@@ -347,7 +369,7 @@ button{font:inherit;cursor:pointer;}
   margin:0 0 var(--s4);
   transition:all .2s var(--ease);
 }
-.crosslink:hover{color:var(--phase);border-color:color-mix(in srgb,var(--phase) 34%,var(--line));box-shadow:var(--shadow-xs);}
+.crosslink:hover{color:var(--phase-deep);border-color:color-mix(in srgb,var(--phase) 34%,var(--line));box-shadow:var(--shadow-xs);}
 .crosslink:active{transform:scale(.98);}
 
 /* ===========================
@@ -355,7 +377,7 @@ button{font:inherit;cursor:pointer;}
    =========================== */
 .card{
   background:var(--card);border:1px solid var(--line);
-  border-radius:14px;padding:20px 22px;margin:0 0 var(--s3);
+  border-radius:var(--r-card);padding:20px 22px;margin:0 0 var(--s3);
   box-shadow:var(--shadow-xs);
   transition:box-shadow .25s var(--ease);
 }
@@ -373,7 +395,7 @@ button{font:inherit;cursor:pointer;}
 
 .hours{
   background:linear-gradient(165deg,#07253A,#0C3550);
-  color:#DCEBEA;border-radius:14px;
+  color:#DCEBEA;border-radius:var(--r-card);
   padding:20px 24px;margin:0 0 var(--s3);
   box-shadow:var(--shadow-md);
 }
@@ -398,7 +420,7 @@ button{font:inherit;cursor:pointer;}
 .pin{
   width:22px;height:22px;border-radius:50%;
   background:color-mix(in srgb,var(--phase) 12%,#fff);
-  color:var(--phase);display:grid;place-items:center;
+  color:var(--phase-deep);display:grid;place-items:center;
   font-family:var(--mono);font-size:.6rem;font-weight:500;
   margin-top:2px;flex:none;
   border:1px solid color-mix(in srgb,var(--phase) 18%,var(--line));
@@ -419,7 +441,7 @@ ul.steps li:last-child{margin-bottom:0;}
   background:#FFF4EE;
   border:1px solid #F6D5C4;
   border-left:4px solid var(--sun);
-  border-radius:4px 14px 14px 4px;
+  border-radius:4px var(--r-card) var(--r-card) 4px;
   padding:16px 20px 16px 50px;
   font-size:.93rem;margin:0 0 var(--s3);color:#8A3E1C;
   position:relative;line-height:1.6;
@@ -428,7 +450,7 @@ ul.steps li:last-child{margin-bottom:0;}
   content:"!";
   position:absolute;left:14px;top:16px;
   width:24px;height:24px;border-radius:50%;
-  background:var(--sun);color:#fff;
+  background:var(--sun-deep);color:#fff;
   display:grid;place-items:center;
   font-family:var(--display);font-weight:800;font-size:.78rem;line-height:1;
 }
@@ -491,9 +513,9 @@ ul.steps li:last-child{margin-bottom:0;}
   opacity:0;margin-top:-3px;
   transition:opacity .18s var(--ease),transform .18s var(--ease);
 }
-.ck input:checked+.ck-box{background:var(--spring);border-color:var(--spring);}
+.ck input:checked+.ck-box{background:var(--spring-deep);border-color:var(--spring-deep);}
 .ck input:checked+.ck-box::after{opacity:1;transform:rotate(-45deg) scale(1);}
-.ck input:focus-visible+.ck-box{outline:2px solid var(--spring);outline-offset:3px;}
+.ck input:focus-visible+.ck-box{outline:2px solid var(--gulf-deep);outline-offset:3px;}
 .ck-text{font-size:.94rem;line-height:1.55;transition:color .2s var(--ease);}
 .ck input:checked~.ck-text{color:var(--ink-soft);}
 .ck input:checked~.ck-text strong{color:var(--ink-soft);}
@@ -506,6 +528,7 @@ ul.steps li:last-child{margin-bottom:0;}
 .legs2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 var(--s3);}
 .legcard{
   --lc:var(--gulf);
+  --lc-ink:var(--gulf-deep);
   display:grid;gap:5px;align-content:start;
   text-decoration:none;color:inherit;
   background:var(--card);border:1px solid var(--line);
@@ -517,13 +540,13 @@ ul.steps li:last-child{margin-bottom:0;}
 }
 .legcard:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:color-mix(in srgb,var(--lc) 30%,var(--line));border-top-color:var(--lc);}
 .legcard:active{transform:translateY(0);}
-.legcard.is-hard{--lc:var(--sun);}
-.lc-when{font-family:var(--mono);font-size:.63rem;letter-spacing:.13em;text-transform:uppercase;color:var(--lc);}
+.legcard.is-hard{--lc:var(--sun);--lc-ink:var(--sun-deep);}
+.lc-when{font-family:var(--mono);font-size:.63rem;letter-spacing:.13em;text-transform:uppercase;color:var(--lc-ink);}
 .lc-route{font-family:var(--display);font-size:1.14rem;font-weight:700;letter-spacing:-.02em;line-height:1.2;}
 .lc-stats{font-family:var(--mono);font-size:.7rem;color:var(--ink-soft);letter-spacing:.02em;}
 .lc-go{
   font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;
-  color:var(--lc);margin-top:7px;font-weight:500;
+  color:var(--lc-ink);margin-top:7px;font-weight:500;
 }
 
 /* ===========================
@@ -555,17 +578,18 @@ ul.steps li:last-child{margin-bottom:0;}
 .sp-seg{
   --dc:var(--ink-soft);
   flex:1;min-width:0;border-radius:5px;
-  background:color-mix(in srgb,var(--dc) 82%,#fff);
-  display:grid;place-items:center;
+  background:var(--dc);
+  display:grid;place-items:center;overflow:hidden;
 }
 .sp-seg i{
   font-family:var(--mono);font-style:normal;font-size:.6rem;
   letter-spacing:.06em;color:#fff;font-weight:500;
+  padding:0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;
 }
 .sp-seg.is-night{
   background:
-    repeating-linear-gradient(135deg,rgba(7,37,58,.34) 0 5px,rgba(7,37,58,0) 5px 10px),
-    color-mix(in srgb,var(--dc) 82%,#fff);
+    repeating-linear-gradient(135deg,rgba(255,255,255,.16) 0 5px,rgba(255,255,255,0) 5px 10px),
+    var(--dc);
 }
 .sp-seg:first-child{border-radius:8px 5px 5px 8px;}
 .sp-seg:last-child{border-radius:5px 8px 8px 5px;}
@@ -612,7 +636,7 @@ ul.steps li:last-child{margin-bottom:0;}
    =========================== */
 .cond{
   background:var(--card);border:1px solid var(--line);
-  border-radius:14px;box-shadow:var(--shadow-xs);
+  border-radius:var(--r-card);box-shadow:var(--shadow-xs);
   padding:4px 22px;margin:0 0 var(--s3);
 }
 .cond-row{
@@ -622,7 +646,7 @@ ul.steps li:last-child{margin-bottom:0;}
 .cond-row:first-child{border-top:0;}
 .cond-k{
   font-family:var(--mono);font-size:.63rem;letter-spacing:.13em;text-transform:uppercase;
-  color:var(--phase);padding-top:4px;
+  color:var(--phase-deep);padding-top:4px;
 }
 .cond-row p{margin:0 0 .8rem;font-size:.95rem;}
 .cond-row p:last-child{margin-bottom:0;}
@@ -654,15 +678,15 @@ ul.steps li:last-child{margin-bottom:0;}
   box-shadow:0 1px 4px rgba(7,37,58,.15);
 }
 .trip-nav a:active{transform:scale(.97);}
-.trip-nav a.is-today{border-color:var(--sun);color:#B14A1D;background:#FFF4EE;}
-.trip-nav a.is-today:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
-.today-badge{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;font-weight:600;color:#fff;background:var(--sun);padding:2px 7px;border-radius:var(--r-pill);margin-left:6px;vertical-align:middle;}
+.trip-nav a.is-today{border-color:var(--sun);color:var(--sun-deep);background:#FFF4EE;}
+.trip-nav a.is-today:hover,.trip-nav a.is-today:focus-visible{background:var(--ink);color:#fff;border-color:var(--ink);}
+.today-badge{display:inline-block;font-family:var(--mono);font-size:.56rem;letter-spacing:.11em;text-transform:uppercase;font-weight:500;color:#fff;background:var(--sun-deep);padding:2px 8px;border-radius:var(--r-pill);margin-left:6px;vertical-align:middle;}
 
 .trip-days{padding:var(--s6) 0 0;}
 .day{display:grid;grid-template-columns:96px 1fr;gap:0 28px;position:relative;}
 .rail{position:relative;padding-top:6px;}
 .rail::after{
-  content:"";position:absolute;left:23px;top:60px;bottom:-46px;
+  content:"";position:absolute;left:23.75px;top:60px;bottom:-46px;
   width:2.5px;
   background:linear-gradient(180deg,var(--phase),color-mix(in srgb,var(--phase) 30%,var(--line)));
   border-radius:2px;
@@ -670,7 +694,7 @@ ul.steps li:last-child{margin-bottom:0;}
 .day:last-of-type .rail::after{display:none;}
 .marker{
   width:50px;height:50px;border-radius:50%;
-  background:linear-gradient(145deg,color-mix(in srgb,var(--phase) 85%,#fff),var(--phase));
+  background:linear-gradient(145deg,var(--phase-deep),color-mix(in srgb,var(--phase-deep) 80%,var(--ink)));
   color:#fff;display:grid;place-items:center;
   font-family:var(--display);font-weight:700;font-size:1rem;letter-spacing:-.02em;
   position:relative;z-index:2;
@@ -680,14 +704,14 @@ ul.steps li:last-child{margin-bottom:0;}
 .today-chip{
   display:inline-block;margin-top:7px;
   font-family:var(--mono);font-size:.56rem;letter-spacing:.11em;text-transform:uppercase;
-  color:#fff;background:var(--sun);padding:2px 8px;border-radius:var(--r-pill);font-weight:500;
+  color:#fff;background:var(--sun-deep);padding:2px 8px;border-radius:var(--r-pill);font-weight:500;
 }
 .day.is-today .marker{box-shadow:0 3px 14px color-mix(in srgb,var(--sun) 34%,transparent),0 0 0 4px var(--paper),0 0 0 6px var(--sun);}
 .body-col{padding-bottom:48px;min-width:0;}
 .day h2{font-size:clamp(1.55rem,4vw,2.15rem);font-weight:700;letter-spacing:-.025em;margin-bottom:8px;}
 .tag{
   display:inline-block;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--phase);
+  color:var(--phase-deep);
   background:color-mix(in srgb,var(--phase) 8%,var(--paper));
   border:1px solid color-mix(in srgb,var(--phase) 18%,var(--line));
   border-radius:var(--r-pill);padding:4px 12px;margin-bottom:14px;font-weight:500;
@@ -735,14 +759,14 @@ ul.steps li:last-child{margin-bottom:0;}
 .foot{
   margin-top:var(--s5);padding-top:var(--s4);
   border-top:1px solid rgba(255,255,255,.1);
-  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:#6F9EA2;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:#82AFB3;
 }
 
 /* ===========================
    20. FOCUS
    =========================== */
-:focus-visible{outline:2px solid var(--spring);outline-offset:3px;border-radius:4px;}
-.statusbar :focus-visible{outline-color:#9FE3D2;}
+:focus-visible{outline:2px solid var(--gulf-deep);outline-offset:3px;border-radius:4px;}
+.statusbar :focus-visible,.hero :focus-visible{outline-color:#9FE3D2;}
 
 /* ===========================
    21. RESPONSIVE
@@ -753,15 +777,12 @@ ul.steps li:last-child{margin-bottom:0;}
 @media(max-width:680px){
   .hero{padding:40px 0 36px;}
   .day{grid-template-columns:54px 1fr;gap:0 14px;}
-  .rail::after{left:25px;}
+  .rail::after{left:21.75px;}
   .marker{width:46px;height:46px;font-size:.92rem;}
   .rail-date{font-size:.6rem;letter-spacing:.04em;}
   .today-chip{font-size:.52rem;letter-spacing:.07em;padding:2px 6px;}
   .grid2{grid-template-columns:1fr;}
-  .facts{gap:8px;}
-  .facts>div{padding:8px 14px;}
   .card,.hours{padding:17px 18px;}
-  .shift-plan{padding:0;}
   .shift-plan .sp-head{padding:13px 16px;}
   .sp-rule{margin-left:0;flex:0 0 100%;}
   .sp-body{padding:14px 16px 16px;}
@@ -802,6 +823,15 @@ ul.steps li:last-child{margin-bottom:0;}
   .sb-btn{flex:1 1 auto;text-align:center;}
   .trip-days{padding:var(--s5) 0 0;}
   .section-head{margin-top:var(--s4);}
+  /* the route strip wraps badly with flexible connectors, so at phone
+     widths it becomes a plain wrapping chain */
+  .strip{gap:8px 12px;padding:4px 0 12px;}
+  .strip .seg{display:none;}
+  .node{font-size:.68rem;}
+  .node:not(:last-child)::after{
+    content:"\2192";margin-left:8px;
+    color:color-mix(in srgb,var(--ink-soft) 55%,var(--paper));
+  }
 }
 @media(max-width:400px){
   .wrap{padding:0 16px;}
@@ -817,7 +847,7 @@ ul.steps li:last-child{margin-bottom:0;}
    =========================== */
 @media print{
   *{transition:none!important;transform:none!important;animation:none!important;box-shadow:none!important;}
-  .tab-bar,.trip-nav,.park-bar,.switch-link,.crosslink,.statusbar,.ck-reset,.sp-bar,.today-badge,.today-chip{display:none!important;}
+  .tab-bar,.trip-nav,.park-bar,.switch-link,.crosslink,.statusbar,.ck-reset,.sp-bar,.today-badge,.today-chip,.skip{display:none!important;}
   .tab-panel,.park-panel{display:block!important;}
   body{background:#fff;color:#000;font-size:11pt;line-height:1.5;}
   .wrap{max-width:100%;padding:0 20px;}
@@ -859,8 +889,14 @@ ul.steps li:last-child{margin-bottom:0;}
   .foot{color:#666!important;border-color:#ccc!important;}
 
   .section-head::after{background:#666!important;}
+  .panel-lede,.panel-sub,.park-date{color:#333!important;}
   .pin{background:#eee!important;color:#333!important;border-color:#ccc!important;}
+  .places span{color:#333!important;}
   .food-area{background:#eee!important;color:#333!important;}
+  .time-block{color:#000!important;}
+  .time-block::after{background:#ccc!important;}
+  .leg{background:#fff!important;border-color:#bbb!important;color:#333!important;}
+  .leg svg{stroke:#333!important;}
   .rbadge{border-color:#ccc!important;background:#f4f4f4!important;color:#333!important;}
 
   /* prep components */
@@ -891,8 +927,9 @@ ul.steps li:last-child{margin-bottom:0;}
 
   .strip{display:none;}
   .day{page-break-inside:avoid;}
-  .card{page-break-inside:avoid;}
+  .card,.cond,.warn,.legcard,.hours{page-break-inside:avoid;}
   .shift-plan{page-break-inside:avoid;}
+  .checklist li{page-break-inside:avoid;}
   #tab-trip,.park-panel{page-break-before:always;}
   .closer{page-break-before:always;}
 }
@@ -907,6 +944,8 @@ ul.steps li:last-child{margin-bottom:0;}
 </style>
 </head>
 <body>
+
+<a class="skip" href="#main">Skip to content</a>
 
 <!-- ==================== HERO ==================== -->
 <header class="hero">
@@ -933,11 +972,13 @@ ul.steps li:last-child{margin-bottom:0;}
 </header>
 
 <!-- ==================== TAB BAR ==================== -->
-<nav class="tab-bar" role="tablist" aria-label="Section" id="tablist">
+<nav class="tab-bar" role="tablist" aria-label="Trip sections" id="tablist">
   <button id="tabbtn-prep" role="tab" aria-selected="false" aria-controls="tab-prep" tabindex="-1" data-tab="prep">Prep</button>
   <button id="tabbtn-trip" role="tab" aria-selected="false" aria-controls="tab-trip" tabindex="-1" data-tab="trip">Road Trip</button>
   <button id="tabbtn-universal" role="tab" aria-selected="true" aria-controls="tab-universal" tabindex="0" data-tab="universal">Universal</button>
 </nav>
+
+<main id="main">
 
 <!-- ============================================================ -->
 <!-- PREP TAB                                                      -->
@@ -949,7 +990,7 @@ ul.steps li:last-child{margin-bottom:0;}
     <div class="panel-sub">Departure · Friday, September 4 · 9:00 PM</div>
     <p class="panel-lede">Everything that needs deciding or packing before the car moves. Once you're on the road, the day-by-day plan lives in Road Trip.</p>
 
-    <h2 class="section-head">Pack list</h2>
+    <h3 class="section-head" id="pack-head">Pack list</h3>
 
     <div class="ck-meter">
       <span class="ck-count" id="ck-count" aria-live="polite"><b>0</b> of 7 packed</span>
@@ -957,7 +998,7 @@ ul.steps li:last-child{margin-bottom:0;}
       <button type="button" class="ck-reset" id="ck-reset">Reset</button>
     </div>
 
-    <ul class="checklist" id="packlist">
+    <ul class="checklist" id="packlist" role="list" aria-labelledby="pack-head">
       <li><label class="ck"><input type="checkbox"><span class="ck-box" aria-hidden="true"></span><span class="ck-text"><strong>Water shoes and a dry bag</strong> for Ginnie Springs, plus reef-safe sunscreen and a hat for both beach days.</span></label></li>
       <li><label class="ck"><input type="checkbox"><span class="ck-box" aria-hidden="true"></span><span class="ck-text"><strong>A cooler with drinks and snacks</strong> for the car. Cuts down on stops during both overnight drives.</span></label></li>
       <li><label class="ck"><input type="checkbox"><span class="ck-box" aria-hidden="true"></span><span class="ck-text"><strong>Car chargers or a power bank</strong> for three phones running navigation and the Universal app all day.</span></label></li>
@@ -967,7 +1008,7 @@ ul.steps li:last-child{margin-bottom:0;}
       <li><label class="ck"><input type="checkbox"><span class="ck-box" aria-hidden="true"></span><span class="ck-text">A light layer for park AC and the 7 AM Ormond sunrise. It's cooler out there than the daytime heat suggests.</span></label></li>
     </ul>
 
-    <h2 class="section-head">Driving plan</h2>
+    <h3 class="section-head" id="driving-plan">Driving plan</h3>
 
     <p>Two legs of this trip are overnight drives. With three drivers nobody takes more than a four-hour stretch, and the Wednesday run home is the one to respect: it starts after a 6 AM wake-up and a full beach day, on top of five nights of short sleep. Each leg's rotation sits on its own day in the timeline.</p>
 
@@ -988,7 +1029,7 @@ ul.steps li:last-child{margin-bottom:0;}
 
     <p class="note">Driver numbers are consistent across both legs, so whoever takes the 1 AM shift out is the same person on the 7 PM shift back. Decide who is Driver 1, 2, and 3 before you leave.</p>
 
-    <h2 class="section-head">Conditions</h2>
+    <h3 class="section-head">Conditions</h3>
 
     <div class="cond">
       <div class="cond-row">
@@ -1027,6 +1068,10 @@ ul.steps li:last-child{margin-bottom:0;}
 
   <div class="wrap">
 
+    <h2 class="panel-title">Day by day</h2>
+    <div class="panel-sub">Friday, September 4 – Thursday, September 10</div>
+    <a href="#prep" class="crosslink" data-switch="prep">← Pack list and driving plan</a>
+
     <div class="strip">
       <div class="node"><span class="dot" style="--nc:#14808C"></span>Irving</div>
       <div class="seg" style="--a:#14808C;--b:#14808C"></div>
@@ -1042,14 +1087,14 @@ ul.steps li:last-child{margin-bottom:0;}
     <div class="trip-days">
 
       <!-- DAY 1 -->
-      <section class="day" id="d1" style="--phase:var(--gulf)">
+      <section class="day" id="d1" data-phase="gulf">
         <div class="rail"><div class="marker">Fri</div><div class="rail-date">Sep 4</div></div>
         <div class="body-col">
           <span class="tag">Overnight drive</span>
           <h2>Roll out of Irving</h2>
           <p>Leave Irving at <strong>9:00 PM</strong> and drive through the night in shifts toward the Gulf Coast. Three drivers means nobody does more than a four-hour stretch.</p>
           <div class="leg">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             Irving → Destin · 12 hrs · 690 mi
           </div>
 
@@ -1061,7 +1106,7 @@ ul.steps li:last-child{margin-bottom:0;}
                 <span class="sp-seg is-night" data-driver="2" style="flex:4"><i>D2</i></span>
                 <span class="sp-seg" data-driver="3" style="flex:4"><i>D3</i></span>
               </div>
-              <ol class="sp-list">
+              <ol class="sp-list" role="list">
                 <li class="sp-shift is-night" data-driver="1">
                   <div class="sp-top">
                     <span class="sp-who">Driver 1</span>
@@ -1091,7 +1136,7 @@ ul.steps li:last-child{margin-bottom:0;}
           </div>
           <div class="card">
             <h3>Pit stops along the way</h3>
-            <ul class="places">
+            <ul class="places" role="list">
               <li><span class="pin">1</span><div><strong>Buc-ee's, Terrell, TX</strong> <span>— right on I-20, about 35 minutes out of Irving. Barely a detour this early, but it's the last big, clean stop before the empty stretch through east Texas. Top off gas and grab road snacks here.</span></div></li>
               <li><span class="pin">2</span><div><strong>Love's Travel Stop, Vicksburg, MS</strong> <span>— I-20 Exit 165. There's no Buc-ee's yet through Louisiana or central Mississippi, this is the reliable fallback around the halfway point, roughly 5-6 hours in, right in Driver 2's graveyard shift.</span></div></li>
               <li><span class="pin">3</span><div><strong>Buc-ee's, Robertsdale/Loxley, AL</strong> <span>— at the I-10/I-65 interchange near Gulf Shores, about 1.5-2 hours from Destin. The chain's first store outside Texas. Good coffee-and-breakfast stop as Driver 3 takes the final stretch in.</span></div></li>
@@ -1102,7 +1147,7 @@ ul.steps li:last-child{margin-bottom:0;}
       </section>
 
       <!-- DAY 2 -->
-      <section class="day" id="d2" style="--phase:var(--gulf)">
+      <section class="day" id="d2" data-phase="gulf">
         <div class="rail"><div class="marker">Sat</div><div class="rail-date">Sep 5</div></div>
         <div class="body-col">
           <span class="tag">Emerald Coast</span>
@@ -1110,7 +1155,7 @@ ul.steps li:last-child{margin-bottom:0;}
           <p>Arrive around <strong>9-10 AM</strong> and go straight to the sand. Sugar-white beach, clear green-blue water. Do the bulk of your relaxing by mid-afternoon so the evening drive isn't rough on no sleep.</p>
           <div class="card">
             <h3>Where to go in Destin</h3>
-            <ul class="places">
+            <ul class="places" role="list">
               <li><span class="pin">1</span><div><strong>Henderson Beach State Park</strong> <span>— the cleanest, least crowded stretch of white sand in Destin. $6 per car. This is the one to settle in at for the day.</span></div></li>
               <li><span class="pin">2</span><div><strong>Destin Harbor Boardwalk</strong> <span>— open 24 hrs. Shops, food, harbor views, and the launch point for dolphin cruises and jet ski rentals.</span></div></li>
               <li><span class="pin">3</span><div><strong>HarborWalk Village</strong> <span>— lively waterfront hub for dinner and drinks. Parking runs about $20.</span></div></li>
@@ -1119,7 +1164,7 @@ ul.steps li:last-child{margin-bottom:0;}
           </div>
           <div class="card">
             <h3>Where to eat in Destin</h3>
-            <ul class="places">
+            <ul class="places" role="list">
               <li><span class="pin">1</span><div><strong>The Back Porch</strong> <span>— the original gulf-front seafood shack that started Destin's whole grilled amberjack tradition. Order right off the beach, no reservation needed.</span></div></li>
               <li><span class="pin">2</span><div><strong>Dewey Destin's Seafood</strong> <span>— family-run dockside spot since 1976. Casual, on the water, honest seafood at fair prices.</span></div></li>
               <li><span class="pin">3</span><div><strong>AJ's Seafood &amp; Oyster Bar</strong> <span>— harbor views, oysters, and live music. Good pick if you want the HarborWalk energy with a real meal.</span></div></li>
@@ -1128,7 +1173,7 @@ ul.steps li:last-child{margin-bottom:0;}
             <p class="note">Eat lunch on the beach, save a sit-down dinner for HarborWalk before you hit the road for Lake City.</p>
           </div>
           <div class="leg">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             Destin → Lake City · 3.5 hrs on I-10 · check in late evening
           </div>
           <p class="note">Saturday means beaches and beach-town lodging fill up. Book the Lake City hotel ahead of time. You'll roll in late, so Lake City is a highway stop, not a dining destination. Grab something quick near I-75 and crash.</p>
@@ -1136,7 +1181,7 @@ ul.steps li:last-child{margin-bottom:0;}
       </section>
 
       <!-- DAY 3 -->
-      <section class="day" id="d3" style="--phase:var(--spring)">
+      <section class="day" id="d3" data-phase="spring">
         <div class="rail"><div class="marker">Sun</div><div class="rail-date">Sep 6</div></div>
         <div class="body-col">
           <span class="tag">Freshwater springs</span>
@@ -1148,13 +1193,13 @@ ul.steps li:last-child{margin-bottom:0;}
           </div>
           <div class="card">
             <h3>If you'd rather have quiet over busy</h3>
-            <ul class="places">
+            <ul class="places" role="list">
               <li><span class="pin">A</span><div><strong>Ichetucknee Springs</strong> <span>— widely called the best tubing run in Florida. State park, so more rules and fewer rentals, and it fills up on weekends.</span></div></li>
               <li><span class="pin">B</span><div><strong>Gilchrist Blue Springs</strong> <span>— right next door to Ginnie. Quieter, cheaper, excellent snorkeling.</span></div></li>
             </ul>
           </div>
           <div class="leg">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             Springs → Orlando · 2 hrs · check in near Universal at night
           </div>
           <p class="note">You'll arrive after the parks close, so keep Sunday dinner simple. Anything on International Drive near your hotel works, save the real Universal food picks for Monday and Tuesday.</p>
@@ -1162,7 +1207,7 @@ ul.steps li:last-child{margin-bottom:0;}
       </section>
 
       <!-- DAY 4 -->
-      <section class="day" id="d4" style="--phase:var(--park)">
+      <section class="day" id="d4" data-phase="park">
         <div class="rail"><div class="marker">Mon</div><div class="rail-date">Sep 7</div></div>
         <div class="body-col">
           <span class="tag">Universal · Day 1</span>
@@ -1178,7 +1223,7 @@ ul.steps li:last-child{margin-bottom:0;}
       </section>
 
       <!-- DAY 5 -->
-      <section class="day" id="d5" style="--phase:var(--park)">
+      <section class="day" id="d5" data-phase="park">
         <div class="rail"><div class="marker">Tue</div><div class="rail-date">Sep 8</div></div>
         <div class="body-col">
           <span class="tag">Universal · Day 2</span>
@@ -1194,15 +1239,15 @@ ul.steps li:last-child{margin-bottom:0;}
       </section>
 
       <!-- DAY 6 -->
-      <section class="day" id="d6" style="--phase:var(--sun)">
+      <section class="day" id="d6" data-phase="sun">
         <div class="rail"><div class="marker">Wed</div><div class="rail-date">Sep 9</div></div>
         <div class="body-col">
           <span class="tag">Atlantic sunrise → long haul</span>
           <h2>Ormond Beach, then west</h2>
-          <p>Leave Orlando by <strong>5:45-6:00 AM</strong>. Ormond Beach is about an hour east. <strong>Sunrise lands at 7:05 AM</strong> over the Atlantic — the one thing on this trip the Gulf side can't give you.</p>
+          <p>Leave Orlando by <strong>5:45-6:00 AM</strong>. Ormond Beach is about an hour east. <strong>Sunrise lands at 7:05 AM</strong> over the Atlantic, the one thing on this trip the Gulf side can't give you.</p>
           <div class="card">
             <h3>Where to go in Ormond &amp; Daytona</h3>
-            <ul class="places">
+            <ul class="places" role="list">
               <li><span class="pin">1</span><div><strong>Ormond / Daytona Beach</strong> <span>— hard-packed sand you can actually drive onto. Park facing east and watch the sun come up.</span></div></li>
               <li><span class="pin">2</span><div><strong>Tomoka State Park</strong> <span>— quiet riverfront trails, wildlife, and Timucuan history a few minutes from the beach. Open from 8 AM.</span></div></li>
               <li><span class="pin">3</span><div><strong>Daytona Boardwalk Amusements</strong> <span>— classic oceanfront boardwalk, rides and arcade, open from 9 AM.</span></div></li>
@@ -1211,7 +1256,7 @@ ul.steps li:last-child{margin-bottom:0;}
           </div>
           <div class="card">
             <h3>Where to eat in Ormond &amp; Daytona</h3>
-            <ul class="places">
+            <ul class="places" role="list">
               <li><span class="pin">1</span><div><strong>Aunt Catfish's on the River</strong> <span>— riverfront breakfast and brunch spot, a local institution. Good call right after sunrise if you want a real sit-down meal before the beach.</span></div></li>
               <li><span class="pin">2</span><div><strong>Racing's North Turn Beach Bar &amp; Grille</strong> <span>— sits on the actual sand where NASCAR's beach races once ran. Casual, oceanfront, fun history with your lunch.</span></div></li>
               <li><span class="pin">3</span><div><strong>Down the Hatch</strong> <span>— waterfront seafood dock at Ponce Inlet, a bit further south. Worth the drive if you have the time.</span></div></li>
@@ -1221,7 +1266,7 @@ ul.steps li:last-child{margin-bottom:0;}
           </div>
           <div class="warn"><b>Leave by 3:00 PM and drive straight through in shifts.</b> Ormond to Irving is 1,050 miles and about 15.5 hours. Stopping at a hotel overnight would leave 9-10 hours for Thursday and put the 4 PM arrival at risk. Rotating three drivers is both cheaper and safer for the deadline.</div>
           <div class="leg">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
             Ormond → Irving · 15.5 hrs · 1,050 mi · overnight, no hotel
           </div>
 
@@ -1235,7 +1280,7 @@ ul.steps li:last-child{margin-bottom:0;}
                 <span class="sp-seg is-night" data-driver="1" style="flex:4"><i>D1</i></span>
                 <span class="sp-seg" data-driver="x" style="flex:2"><i>D2/3</i></span>
               </div>
-              <ol class="sp-list">
+              <ol class="sp-list" role="list">
                 <li class="sp-shift" data-driver="1">
                   <div class="sp-top">
                     <span class="sp-who">Driver 1</span>
@@ -1264,7 +1309,7 @@ ul.steps li:last-child{margin-bottom:0;}
                     <span class="sp-when">3:00 AM – 7:00 AM</span>
                     <span class="sp-tag">Night</span>
                   </div>
-                  <p class="sp-note">Driver 1 again.</p>
+                  <p class="sp-note">Driver 1's second stint, back behind the wheel after eight hours off.</p>
                 </li>
                 <li class="sp-shift" data-driver="x">
                   <div class="sp-top">
@@ -1275,12 +1320,12 @@ ul.steps li:last-child{margin-bottom:0;}
                   <p class="sp-note">Whoever slept best.</p>
                 </li>
               </ol>
-              <p class="note">This is the most fatigued stretch of the whole trip. It comes right after a 6 AM wake-up and a full beach day, on top of five days without a real night's sleep. Build in one real 30-45 minute stop around hour 8 or 9, not just a gas splash-and-go. A hot meal and a short walk resets everyone better than another energy drink.</p>
+              <p class="note">This is the most fatigued stretch of the whole trip. It comes right after a 6 AM wake-up and a full beach day, on top of five days without a real night's sleep. Build in one real 30-45 minute stop around hour 8 or 9, not just a gas splash-and-go. A hot meal and a short walk resets everyone better than another energy drink. The 15.5 hours is driving time only, so with stops the rotation runs past 7 AM and you land in Irving mid-morning.</p>
             </div>
           </div>
           <div class="card">
             <h3>Pit stops along the way</h3>
-            <ul class="places">
+            <ul class="places" role="list">
               <li><span class="pin">1</span><div><strong>Buc-ee's, Daytona Beach, FL</strong> <span>— you're already in the area. Swing by before you leave to gas up and restock the cooler for real this time. Florida's longest car wash is here too, if anyone wants a look.</span></div></li>
               <li><span class="pin">2</span><div><strong>Buc-ee's, Robertsdale/Loxley, AL</strong> <span>— same store as the outbound leg, now in reverse, a few hours in near Mobile. Natural place for the Driver 1-to-Driver 2 handoff.</span></div></li>
               <li><span class="pin">3</span><div><strong>Buc-ee's, Pass Christian, MS</strong> <span>— on I-10 near Gulfport and Biloxi, Mississippi's first location. A second real option before the long Louisiana stretch.</span></div></li>
@@ -1293,7 +1338,7 @@ ul.steps li:last-child{margin-bottom:0;}
       </section>
 
       <!-- DAY 7 -->
-      <section class="day" id="d7" style="--phase:var(--sun)">
+      <section class="day" id="d7" data-phase="sun">
         <div class="rail"><div class="marker">Thu</div><div class="rail-date">Sep 10</div></div>
         <div class="body-col">
           <span class="tag">Home</span>
@@ -1336,9 +1381,9 @@ ul.steps li:last-child{margin-bottom:0;}
         <p>With Early Park Admission, be at the gate by <strong>8:15 AM</strong>. Without it, <strong>9:15 AM</strong> for the 10 AM open. The first two hours are everything. Eat before 11:30 AM or after 2:00 PM to dodge the lunch rush. Stay until close; the park is at its best at night.</p>
       </div>
 
-      <h2 class="section-head">Ride priority</h2>
+      <h3 class="section-head">Ride priority</h3>
 
-      <ol class="rides">
+      <ol class="rides" role="list">
         <li>
           <div class="ride-name">Battle at the Ministry</div>
           <div class="ride-loc">Ministry of Magic · Dark ride</div>
@@ -1382,7 +1427,7 @@ ul.steps li:last-child{margin-bottom:0;}
 
       <div class="card">
         <h3>If time allows</h3>
-        <ul class="places">
+        <ul class="places" role="list">
           <li><span class="pin">+</span><div><strong>Fyre Drill</strong> <span>— thrill ride in Isle of Berk.</span></div></li>
           <li><span class="pin">+</span><div><strong>Dragon Racer's Rally</strong> <span>— family ride, low capacity. Hit it early or skip.</span></div></li>
           <li><span class="pin">+</span><div><strong>Constellation Carousel</strong> <span>— not your average carousel. Unexpectedly long waits due to low capacity. Good midday break.</span></div></li>
@@ -1391,53 +1436,53 @@ ul.steps li:last-child{margin-bottom:0;}
 
       <div class="warn"><b>Battle at the Ministry breaks down often.</b> Keep checking the app even when it reads closed. It comes back online with no warning.</div>
 
-      <h2 class="section-head">Don't miss</h2>
+      <h3 class="section-head">Don't miss</h3>
 
       <div class="card">
         <h3>Shows and experiences</h3>
-        <ul class="places">
+        <ul class="places" role="list">
           <li><span class="pin">★</span><div><strong>The Untrainable Dragon</strong> <span>— full-scale live show with puppetry, creatures, and special effects in Isle of Berk. Check showtimes in the app, arrive 15 min early.</span></div></li>
           <li><span class="pin">★</span><div><strong>Interactive wand experiences</strong> <span>— throughout the Ministry of Magic world. Buy a wand and cast spells at marked locations.</span></div></li>
         </ul>
       </div>
 
-      <h2 class="section-head">Where to eat</h2>
+      <h3 class="section-head">Where to eat</h3>
 
       <div class="card">
         <h3>Best bets by world</h3>
         <span class="food-area">Celestial Park (hub)</span>
-        <ul class="places">
+        <ul class="places" role="list">
           <li><span class="pin">★</span><div><strong>The Atlantic</strong> <span>— genuine fine dining. Standout sea bass in a Victorian-aquarium setting. Reserve ahead. Best meal of the trip.</span></div></li>
           <li><span class="pin">·</span><div><strong>Blue Dragon Pan-Asian</strong> <span>— neon-lit, lively. Excellent Tonkotsu Ramen and Snowflake Potstickers.</span></div></li>
           <li><span class="pin">·</span><div><strong>Star Sui Bao</strong> <span>— steamed buns with bok choy and shiitake near Stardust Racers. Portable and quick.</span></div></li>
           <li><span class="pin">·</span><div><strong>Pizza Moon</strong> <span>— steampunk pizzeria. Try the Space Cowboy (BBQ chicken with potato chips on top).</span></div></li>
         </ul>
         <span class="food-area">Super Nintendo World</span>
-        <ul class="places">
+        <ul class="places" role="list">
           <li><span class="pin">★</span><div><strong>Toadstool Cafe</strong> <span>— star of quick-service dining. Mario Burger, Question Block Tiramisu, full Mushroom Kingdom theming.</span></div></li>
         </ul>
         <span class="food-area">Dark Universe</span>
-        <ul class="places">
+        <ul class="places" role="list">
           <li><span class="pin">★</span><div><strong>Das Stakehaus</strong> <span>— vampire-themed sandwiches. The Blood Burger is fun and genuinely good.</span></div></li>
           <li><span class="pin">·</span><div><strong>The Burning Blade Tavern</strong> <span>— try the Pure of Heart cocktail. One of the best themed drinks at Epic Universe.</span></div></li>
         </ul>
         <span class="food-area">Isle of Berk</span>
-        <ul class="places">
+        <ul class="places" role="list">
           <li><span class="pin">★</span><div><strong>Mead Hall</strong> <span>— Viking feasts. The Yaknog is a hit with all ages.</span></div></li>
           <li><span class="pin">·</span><div><strong>Mac and Cheese Cones</strong> <span>— portable, messy, worth it.</span></div></li>
         </ul>
         <span class="food-area">Ministry of Magic</span>
-        <ul class="places">
+        <ul class="places" role="list">
           <li><span class="pin">★</span><div><strong>Butterbeer Crepe</strong> <span>— at Cafe L'air De La Sirene. Went viral. The park's signature sweet item.</span></div></li>
         </ul>
         <p class="note">Eat before 11:30 AM or after 2:00 PM. The lunch rush overlaps with peak ride waits. Mobile-order everything.</p>
       </div>
 
-      <h2 class="section-head">Dinner at CityWalk</h2>
+      <h3 class="section-head">Dinner at CityWalk</h3>
 
       <div class="card">
         <h3>Monday night pick</h3>
-        <ul class="places">
+        <ul class="places" role="list">
           <li><span class="pin">1</span><div><strong>Bigfire</strong> <span>— wood-fired steaks, freshwater fish, and tableside s'mores. Best food quality at CityWalk. Reserve ahead.</span></div></li>
           <li><span class="pin">2</span><div><strong>The Cowfish Sushi Burger Bar</strong> <span>— sushi-burger fusion "burgushi" rolls. Genuinely creative and the food delivers.</span></div></li>
         </ul>
@@ -1465,9 +1510,9 @@ ul.steps li:last-child{margin-bottom:0;}
         <p>Studios closes at 7 PM and IOA at 8 PM. Build the day to <strong>finish at Islands of Adventure</strong>. Start at IOA, hop to Studios via Hogwarts Express midday, then return to IOA for the evening.</p>
       </div>
 
-      <h3 class="time-block">Morning — Islands of Adventure</h3>
+      <h3 class="time-block">Morning · Islands of Adventure</h3>
 
-      <ol class="rides">
+      <ol class="rides" role="list">
         <li>
           <div class="ride-name">Hagrid's Magical Creatures Motorbike Adventure</div>
           <div class="ride-loc">Hogsmeade · Story coaster</div>
@@ -1500,23 +1545,23 @@ ul.steps li:last-child{margin-bottom:0;}
 
       <div class="card">
         <h3>Also worth doing at IOA</h3>
-        <ul class="places">
+        <ul class="places" role="list">
           <li><span class="pin">+</span><div><strong>Popeye &amp; Bluto's Bilge-Rat Barges</strong> <span>— you will get soaked. Welcome on a September Florida day.</span></div></li>
           <li><span class="pin">+</span><div><strong>Doctor Doom's Fearfall</strong> <span>— drop tower, usually short wait.</span></div></li>
           <li><span class="pin">+</span><div><strong>Skull Island: Reign of Kong</strong> <span>— immersive trackless dark ride. Frequent operational closures in 2026, check the app first.</span></div></li>
         </ul>
       </div>
 
-      <h3 class="time-block">Midday — Hogwarts Express</h3>
+      <h3 class="time-block">Midday · Hogwarts Express</h3>
 
       <div class="card">
         <h3>Hogsmeade to Diagon Alley</h3>
         <p>Take the Hogwarts Express from Hogsmeade (IOA) to King's Cross / Diagon Alley (Studios). The ride is themed with different shows in each direction. Requires the park-to-park ticket. Plan to take it both ways.</p>
       </div>
 
-      <h3 class="time-block">Afternoon — Universal Studios</h3>
+      <h3 class="time-block">Afternoon · Universal Studios</h3>
 
-      <ol class="rides">
+      <ol class="rides" role="list">
         <li>
           <div class="ride-name">Escape from Gringotts</div>
           <div class="ride-loc">Diagon Alley · Coaster/dark ride hybrid</div>
@@ -1546,14 +1591,14 @@ ul.steps li:last-child{margin-bottom:0;}
 
       <div class="card">
         <h3>Don't miss at Studios</h3>
-        <ul class="places">
+        <ul class="places" role="list">
           <li><span class="pin">★</span><div><strong>The Bourne Stuntacular</strong> <span>— live stunt performers combined with massive LED screens and physical sets. Not a typical stunt show. Check showtimes.</span></div></li>
           <li><span class="pin">★</span><div><strong>Ollivanders Wand Experience</strong> <span>(Diagon Alley) — one guest gets "chosen" by a wand. Quick, free, magical.</span></div></li>
           <li><span class="pin">★</span><div><strong>Interactive wand spell-casting</strong> <span>— buy a wand and cast spells at marked locations throughout Diagon Alley.</span></div></li>
         </ul>
       </div>
 
-      <h3 class="time-block">Evening — back to IOA</h3>
+      <h3 class="time-block">Evening · back to IOA</h3>
 
       <div class="card">
         <h3>Finish at Islands of Adventure</h3>
@@ -1562,29 +1607,29 @@ ul.steps li:last-child{margin-bottom:0;}
 
       <div class="warn"><b>Jurassic Park River Adventure is closed</b> through Nov 19, 2026. <b>Hollywood Rip Ride Rockit is permanently closed</b> (being replaced by a new coaster in 2027). The Horror Make-Up Show at Studios is also likely still down.</div>
 
-      <h2 class="section-head">Where to eat</h2>
+      <h3 class="section-head">Where to eat</h3>
 
       <div class="card">
         <h3>Park food picks</h3>
         <span class="food-area">Islands of Adventure</span>
-        <ul class="places">
+        <ul class="places" role="list">
           <li><span class="pin">★</span><div><strong>Three Broomsticks</strong> <span>(Hogsmeade) — half roast chicken, fish and chips, frozen Butterbeer. The must-do themed meal.</span></div></li>
           <li><span class="pin">★</span><div><strong>Mythos Restaurant</strong> <span>(Lost Continent) — long-reigning "best theme park restaurant in America." Lagoon views, Mediterranean menu. Closing permanently in 2027 when Lost Continent is demolished. This may be your last shot.</span></div></li>
           <li><span class="pin">·</span><div><strong>Thunder Falls Terrace</strong> <span>(Jurassic Park) — best quick-service value. Rotisserie chicken and ribs. Outdoor seating overlooks the VelociCoaster launch.</span></div></li>
           <li><span class="pin">·</span><div><strong>Green Eggs and Ham Cafe</strong> <span>(Seuss Landing) — loaded tater tots are a fan favorite.</span></div></li>
         </ul>
         <span class="food-area">Universal Studios</span>
-        <ul class="places">
+        <ul class="places" role="list">
           <li><span class="pin">★</span><div><strong>The Leaky Cauldron</strong> <span>(Diagon Alley) — genuine British pub food. Fish and chips, Bangers and Mash. The must-eat at Studios.</span></div></li>
           <li><span class="pin">·</span><div><strong>Butterbeer</strong> <span>— cold or frozen, at The Hopping Pot outdoor bar in Diagon Alley.</span></div></li>
         </ul>
       </div>
 
-      <h2 class="section-head">Dinner at CityWalk</h2>
+      <h3 class="section-head">Dinner at CityWalk</h3>
 
       <div class="card">
         <h3>Tuesday night pick</h3>
-        <ul class="places">
+        <ul class="places" role="list">
           <li><span class="pin">1</span><div><strong>Toothsome Chocolate Emporium</strong> <span>— steampunk-themed, absurd milkshakes, solid dinner menu. The fun, over-the-top way to close out the parks.</span></div></li>
           <li><span class="pin">2</span><div><strong>Pat O'Brien's</strong> <span>— dueling pianos, Cajun food, good bar energy for three friends.</span></div></li>
           <li><span class="pin">3</span><div><strong>Red Oven Pizza Bakery</strong> <span>— best pizza at Universal Orlando if you just want something quick and good.</span></div></li>
@@ -1626,6 +1671,8 @@ ul.steps li:last-child{margin-bottom:0;}
 
 </div><!-- /#tab-universal -->
 
+</main>
+
 <script>
 (function(){
   'use strict';
@@ -1644,7 +1691,7 @@ ul.steps li:last-child{margin-bottom:0;}
     });
     panels.forEach(function(p){p.classList.toggle('active',p.id==='tab-'+id);});
   }
-  tabBtns.forEach(function(b){b.addEventListener('click',function(){setTab(b.dataset.tab);});});
+  tabBtns.forEach(function(b){b.addEventListener('click',function(){setTab(b.dataset.tab);syncHash(b.dataset.tab);});});
 
   var parkBtns=[].slice.call(document.querySelectorAll('.park-btn'));
   var parks=[].slice.call(document.querySelectorAll('.park-panel'));
@@ -1657,7 +1704,7 @@ ul.steps li:last-child{margin-bottom:0;}
     });
     parks.forEach(function(p){p.classList.toggle('active',p.id==='park-'+id);});
   }
-  parkBtns.forEach(function(b){b.addEventListener('click',function(){setPark(b.dataset.park);});});
+  parkBtns.forEach(function(b){b.addEventListener('click',function(){setPark(b.dataset.park);syncHash(b.dataset.park);});});
 
   /* arrow-key navigation for both tablists */
   function wireKeys(list,activate){
@@ -1676,16 +1723,31 @@ ul.steps li:last-child{margin-bottom:0;}
       activate(btns[n]);
     });
   }
-  wireKeys(tabList,function(b){setTab(b.dataset.tab);});
+  wireKeys(tabList,function(b){setTab(b.dataset.tab);syncHash(b.dataset.tab);});
   var parkBar=document.querySelector('.park-bar');
-  if(parkBar)wireKeys(parkBar,function(b){setPark(b.dataset.park);});
+  if(parkBar)wireKeys(parkBar,function(b){setPark(b.dataset.park);syncHash(b.dataset.park);});
 
   /* ---------- cross-tab links ---------- */
+  /* switching tabs hides the link that was just used, which would drop focus
+     back to the document. Park focus on the destination instead. */
+  function focusTarget(el){
+    if(!el)return;
+    if(!el.hasAttribute('tabindex'))el.setAttribute('tabindex','-1');
+    try{el.focus({preventScroll:true});}catch(err){el.focus();}
+  }
   function goTo(anchorId){
     if(!anchorId)return;
     var el=document.getElementById(anchorId);
     if(!el)return;
-    requestAnimationFrame(function(){el.scrollIntoView({block:'start'});});
+    requestAnimationFrame(function(){
+      el.scrollIntoView({block:'start'});
+      focusTarget(el);
+    });
+  }
+  var reduceMotion=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches);
+  function toTop(panelId){
+    window.scrollTo({top:0,behavior:reduceMotion?'auto':'smooth'});
+    if(panelId)focusTarget(document.getElementById(panelId));
   }
 
   document.querySelectorAll('[data-switch]').forEach(function(a){
@@ -1693,19 +1755,33 @@ ul.steps li:last-child{margin-bottom:0;}
       e.preventDefault();
       setTab(a.dataset.switch);
       if(a.dataset.park)setPark(a.dataset.park);
+      syncHash(a.dataset.anchor||a.dataset.park||a.dataset.switch);
       if(a.dataset.anchor)goTo(a.dataset.anchor);
-      else window.scrollTo({top:0,behavior:'smooth'});
+      else toTop('tab-'+a.dataset.switch);
     });
   });
 
   /* ---------- hash routing ---------- */
+  /* keeps the address bar in step with the visible tab so a reload,
+     a bookmark, or a shared link lands in the same place */
+  function syncHash(h){
+    if(!h)return;
+    try{history.replaceState(null,'','#'+h);}catch(err){}
+  }
   function handleHash(){
     var h=location.hash.slice(1);
+    if(!h)return;
     if(/^d[1-7]$/.test(h)){setTab('trip');goTo(h);}
-    else if(h==='epic'){setTab('universal');setPark('epic');}
-    else if(h==='ioa'){setTab('universal');setPark('ioa');}
-    else if(h==='prep'){setTab('prep');}
-    else if(h==='info'){setTab('universal');}
+    else if(h==='epic'||h==='ioa'){setTab('universal');setPark(h);toTop('tab-universal');}
+    else if(h==='prep'||h==='trip'){setTab(h);toTop('tab-'+h);}
+    else if(h==='universal'){setTab('universal');toTop('tab-universal');}
+    else{
+      /* any other in-page id: open the tab that owns it, then jump */
+      var el=document.getElementById(h);
+      var panel=el&&el.closest?el.closest('.tab-panel'):null;
+      if(panel)setTab(panel.id.replace('tab-',''));
+      goTo(h);
+    }
   }
   window.addEventListener('hashchange',handleHash);
 
@@ -1727,13 +1803,22 @@ ul.steps li:last-child{margin-bottom:0;}
   }
   function render(){
     var n=packed(),total=boxes.length;
-    if(countEl)countEl.innerHTML='<b>'+n+'</b> of '+total+' packed';
+    /* countEl is a live region: only touch it when the number actually
+       moved, so it does not announce on first paint */
+    if(countEl){
+      var txt='<b>'+n+'</b> of '+total+' packed';
+      if(countEl.innerHTML!==txt)countEl.innerHTML=txt;
+    }
     if(fillEl)fillEl.style.setProperty('--pct',(total?Math.round(n/total*100):0)+'%');
     updateStatusProgress(n,total);
   }
   if(boxes.length){
     var saved=readStore();
-    boxes.forEach(function(b,i){if(saved[i]==='1')b.checked=true;});
+    /* a stale entry from an older, differently sized list would restore
+       the wrong rows, so only trust an exact-length match */
+    if(saved.length===boxes.length){
+      boxes.forEach(function(b,i){if(saved[i]==='1')b.checked=true;});
+    }
     boxes.forEach(function(b){b.addEventListener('change',function(){writeStore();render();});});
     if(resetEl)resetEl.addEventListener('click',function(){
       boxes.forEach(function(b){b.checked=false;});
@@ -1799,14 +1884,14 @@ ul.steps li:last-child{margin-bottom:0;}
       if(d.park){
         acts.appendChild(actionBtn('Park guide',true,function(){
           setTab('universal');setPark(d.park);
-          window.scrollTo({top:0,behavior:'smooth'});
+          syncHash(d.park);toTop('tab-universal');
         }));
         acts.appendChild(actionBtn("Today's plan",false,function(){
-          setTab('trip');goTo(d.id);
+          setTab('trip');syncHash(d.id);goTo(d.id);
         }));
       }else{
         acts.appendChild(actionBtn("Today's plan",true,function(){
-          setTab('trip');goTo(d.id);
+          setTab('trip');syncHash(d.id);goTo(d.id);
         }));
       }
       bar.appendChild(acts);
@@ -1826,11 +1911,11 @@ ul.steps li:last-child{margin-bottom:0;}
       var navLink=document.querySelector('.trip-nav a[href="#'+d.id+'"]');
       if(navLink){
         navLink.classList.add('is-today');
-        navLink.insertAdjacentHTML('beforeend','<span class="today-badge">TODAY</span>');
+        navLink.insertAdjacentHTML('beforeend',' <span class="today-badge">Today</span>');
       }
       if(d.park){
         var pBtn=document.querySelector('.park-btn[data-park="'+d.park+'"]');
-        if(pBtn)pBtn.insertAdjacentHTML('beforeend','<span class="today-badge">TODAY</span>');
+        if(pBtn)pBtn.insertAdjacentHTML('beforeend',' <span class="today-badge">Today</span>');
       }
     }else if(todayNum<dayNum(TRIP[0].iso)){
       /* ---- before the trip ---- */
@@ -1845,15 +1930,10 @@ ul.steps li:last-child{margin-bottom:0;}
 
       var a2=el('div','sb-actions');
       a2.appendChild(actionBtn('Pack list',true,function(){
-        setTab('prep');
-        window.scrollTo({top:0,behavior:'smooth'});
+        setTab('prep');syncHash('pack-head');goTo('pack-head');
       }));
       a2.appendChild(actionBtn('Driving plan',false,function(){
-        setTab('prep');
-        var h=[].slice.call(document.querySelectorAll('#tab-prep .section-head')).filter(function(x){
-          return x.textContent.indexOf('Driving plan')===0;
-        })[0];
-        if(h)requestAnimationFrame(function(){h.scrollIntoView({block:'start'});});
+        setTab('prep');syncHash('driving-plan');goTo('driving-plan');
       }));
       bar.appendChild(a2);
       bar.hidden=false;
