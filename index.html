@@ -1092,56 +1092,57 @@ ul.steps li:last-child{margin-bottom:0;}
         <div class="body-col">
           <span class="tag">Overnight drive</span>
           <h2>Roll out of Irving</h2>
-          <p>Leave Irving at <strong>9:00 PM</strong> and drive through the night in shifts toward the Gulf Coast. Three drivers means nobody does more than a four-hour stretch.</p>
+          <p>Leave Irving at <strong>9:00 PM</strong> and drive through the night. Top off the tank before you go: a Standard SUV like your SIXT booking (GMC Acadia or similar) runs 19-22 gallons and realistically covers 380-450 miles on a full tank depending on trim, so the stops below aren't just driver swaps, they're spaced to when the tank actually needs it.</p>
           <div class="leg">
             <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             Irving → Destin · 12 hrs · 690 mi
           </div>
 
           <div class="card shift-plan">
-            <h3 class="sp-head"><span class="sp-h">Suggested driver rotation</span><span class="sp-rule">3 shifts · 4 hrs each</span></h3>
+            <h3 class="sp-head"><span class="sp-h">Fuel &amp; driver rotation</span><span class="sp-rule">4 stops, each one both</span></h3>
             <div class="sp-body">
               <div class="sp-bar" aria-hidden="true">
-                <span class="sp-seg is-night" data-driver="1" style="flex:4"><i>D1</i></span>
-                <span class="sp-seg is-night" data-driver="2" style="flex:4"><i>D2</i></span>
-                <span class="sp-seg" data-driver="3" style="flex:4"><i>D3</i></span>
+                <span class="sp-seg is-night" data-driver="1" style="flex:1"><i>D1</i></span>
+                <span class="sp-seg is-night" data-driver="2" style="flex:7"><i>D2</i></span>
+                <span class="sp-seg is-night" data-driver="3" style="flex:5"><i>D3</i></span>
+                <span class="sp-seg" data-driver="1" style="flex:2"><i>D1</i></span>
               </div>
               <ol class="sp-list" role="list">
                 <li class="sp-shift is-night" data-driver="1">
                   <div class="sp-top">
                     <span class="sp-who">Driver 1</span>
-                    <span class="sp-when">9:00 PM – 1:00 AM</span>
+                    <span class="sp-when">9:00 PM start</span>
                     <span class="sp-tag">Night</span>
                   </div>
+                  <p class="sp-note">Irving → <strong>Buc-ee's, Terrell, TX</strong>, ~35 mi, ~40 min. Top off fully even though the tank is nearly full. The next stop is ~330 miles out, close to the edge of this vehicle's range, so leaving here full is what makes that gap safe. Quick stop, swap to Driver 2.</p>
                 </li>
                 <li class="sp-shift is-night" data-driver="2">
                   <div class="sp-top">
                     <span class="sp-who">Driver 2</span>
-                    <span class="sp-when">1:00 AM – 5:00 AM</span>
+                    <span class="sp-when">~9:40 PM start</span>
                     <span class="sp-tag">Night</span>
                   </div>
-                  <p class="sp-note">The hardest shift, latest and darkest.</p>
+                  <p class="sp-note">Terrell → <strong>Love's Travel Stop, Vicksburg, MS</strong> (I-20 Exit 165), ~330 mi, ~4h45m. The longest single stretch of the whole trip and the hardest shift, latest and darkest. No real alternative stop exists in this gap, Louisiana has no Buc-ee's yet. Refuel, real break, swap to Driver 3.</p>
                 </li>
-                <li class="sp-shift" data-driver="3">
+                <li class="sp-shift is-night" data-driver="3">
                   <div class="sp-top">
                     <span class="sp-who">Driver 3</span>
-                    <span class="sp-when">5:00 AM – 9:00 AM</span>
+                    <span class="sp-when">~2:30 AM start</span>
+                    <span class="sp-tag">Night</span>
+                  </div>
+                  <p class="sp-note">Vicksburg → <strong>Buc-ee's, Robertsdale/Loxley, AL</strong> (I-10/I-65 interchange), ~240 mi, ~3h30m. The chain's first store outside Texas. Refuel, coffee and breakfast, swap to Driver 1.</p>
+                </li>
+                <li class="sp-shift" data-driver="1">
+                  <div class="sp-top">
+                    <span class="sp-who">Driver 1</span>
+                    <span class="sp-when">~6:15 AM start</span>
                     <span class="sp-tag">Dawn</span>
                   </div>
-                  <p class="sp-note">Into Destin.</p>
+                  <p class="sp-note">Robertsdale → Destin, ~90 mi, ~1h30m. Driver 1 is back for this one, rested after roughly 8 hours off since their first short stint. Lands with buffer before the 9-10 AM beach start.</p>
                 </li>
               </ol>
-              <p class="note">Swap earlier if anyone gets drowsy. Nobody should be driving on zero sleep since the day before, so figure out who can nap in the afternoon before departure.</p>
+              <p class="note">Refuel at every stop above regardless of what the gauge reads, that's what keeps fuel and driver swaps the same event instead of two separate things to track. Swap earlier if anyone gets drowsy, and nobody should be driving on zero sleep since the day before, so figure out who can nap in the afternoon before departure. Mileages and times are estimates, actual pace will vary with traffic.</p>
             </div>
-          </div>
-          <div class="card">
-            <h3>Pit stops along the way</h3>
-            <ul class="places" role="list">
-              <li><span class="pin">1</span><div><strong>Buc-ee's, Terrell, TX</strong> <span>— right on I-20, about 35 minutes out of Irving. Barely a detour this early, but it's the last big, clean stop before the empty stretch through east Texas. Top off gas and grab road snacks here.</span></div></li>
-              <li><span class="pin">2</span><div><strong>Love's Travel Stop, Vicksburg, MS</strong> <span>— I-20 Exit 165. There's no Buc-ee's yet through Louisiana or central Mississippi, this is the reliable fallback around the halfway point, roughly 5-6 hours in, right in Driver 2's graveyard shift.</span></div></li>
-              <li><span class="pin">3</span><div><strong>Buc-ee's, Robertsdale/Loxley, AL</strong> <span>— at the I-10/I-65 interchange near Gulf Shores, about 1.5-2 hours from Destin. The chain's first store outside Texas. Good coffee-and-breakfast stop as Driver 3 takes the final stretch in.</span></div></li>
-            </ul>
-            <p class="note">Buc-ee's locations verified open as of August 2026. Louisiana's first two stores (Ruston, Lafayette) aren't expected until 2027.</p>
           </div>
         </div>
       </section>
@@ -1264,75 +1265,85 @@ ul.steps li:last-child{margin-bottom:0;}
             </ul>
             <p class="note">Breakfast at Aunt Catfish's after sunrise, lunch beachside at Racing's North Turn, then eat something substantial before you leave at 3 PM. Nothing convenient on I-75 tonight.</p>
           </div>
-          <div class="warn"><b>Leave by 3:00 PM and drive straight through in shifts.</b> Ormond to Irving is 1,050 miles and about 15.5 hours. Stopping at a hotel overnight would leave 9-10 hours for Thursday and put the 4 PM arrival at risk. Rotating three drivers is both cheaper and safer for the deadline.</div>
+          <div class="warn"><b>Leave by 3:00 PM and drive straight through in shifts.</b> Ormond to Irving is roughly 1,050-1,100 miles depending on the exact route, call it 15.5 hours of pure driving. Stopping at a hotel overnight would leave 9-10 hours for Thursday and put the 4 PM arrival at risk. Rotating three drivers is both cheaper and safer for the deadline.</div>
           <div class="leg">
             <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
-            Ormond → Irving · 15.5 hrs · 1,050 mi · overnight, no hotel
+            Ormond → Irving · 15.5 hrs driving · ~1,050 mi · overnight, no hotel
           </div>
 
           <div class="card shift-plan">
-            <h3 class="sp-head"><span class="sp-h">Suggested driver rotation</span><span class="sp-rule">5 shifts · longest leg</span></h3>
+            <h3 class="sp-head"><span class="sp-h">Fuel &amp; driver rotation</span><span class="sp-rule">6 stops, each one both</span></h3>
             <div class="sp-body">
+              <p class="sp-note">Fill up at <strong>Buc-ee's, Daytona Beach</strong> before you leave Ormond, on the way out is easier than a detour later. From there, six more stops carry you home, each one a refuel and a driver swap together. Same 380-450 mile realistic range as Day 1, so nobody pushes toward empty.</p>
               <div class="sp-bar" aria-hidden="true">
                 <span class="sp-seg" data-driver="1" style="flex:4"><i>D1</i></span>
-                <span class="sp-seg is-night" data-driver="2" style="flex:4"><i>D2</i></span>
-                <span class="sp-seg is-night" data-driver="3" style="flex:4"><i>D3</i></span>
-                <span class="sp-seg is-night" data-driver="1" style="flex:4"><i>D1</i></span>
-                <span class="sp-seg" data-driver="x" style="flex:2"><i>D2/3</i></span>
+                <span class="sp-seg is-night" data-driver="2" style="flex:3"><i>D2</i></span>
+                <span class="sp-seg is-night" data-driver="3" style="flex:2"><i>D3</i></span>
+                <span class="sp-seg is-night" data-driver="1" style="flex:3"><i>D1</i></span>
+                <span class="sp-seg is-night" data-driver="2" style="flex:3"><i>D2</i></span>
+                <span class="sp-seg is-night" data-driver="3" style="flex:2"><i>D3</i></span>
+                <span class="sp-seg" data-driver="1" style="flex:1"><i>D1</i></span>
               </div>
               <ol class="sp-list" role="list">
                 <li class="sp-shift" data-driver="1">
                   <div class="sp-top">
                     <span class="sp-who">Driver 1</span>
-                    <span class="sp-when">3:00 PM – 7:00 PM</span>
+                    <span class="sp-when">~3:00 PM start</span>
                     <span class="sp-tag">Daylight</span>
                   </div>
+                  <p class="sp-note">Daytona → <strong>Love's Travel Stop, Lee, FL</strong> (I-10 Exit 262, near Tallahassee), ~250 mi, ~3h45m. No Buc-ee's on this stretch yet. Refuel, swap to Driver 2.</p>
                 </li>
                 <li class="sp-shift is-night" data-driver="2">
                   <div class="sp-top">
                     <span class="sp-who">Driver 2</span>
-                    <span class="sp-when">7:00 PM – 11:00 PM</span>
+                    <span class="sp-when">~6:45 PM start</span>
                     <span class="sp-tag">Night</span>
                   </div>
+                  <p class="sp-note">Lee → <strong>Buc-ee's, Robertsdale/Loxley, AL</strong>, ~170 mi, ~2h30m. Same store as Day 1, reversed. Refuel, swap to Driver 3.</p>
                 </li>
                 <li class="sp-shift is-night" data-driver="3">
                   <div class="sp-top">
                     <span class="sp-who">Driver 3</span>
-                    <span class="sp-when">11:00 PM – 3:00 AM</span>
+                    <span class="sp-when">~9:15 PM start</span>
                     <span class="sp-tag">Night</span>
                   </div>
-                  <p class="sp-note">The graveyard shift.</p>
+                  <p class="sp-note">Robertsdale → <strong>Buc-ee's, Pass Christian, MS</strong>, ~105 mi, ~1h35m. Mississippi's first Buc-ee's. Refuel, swap to Driver 1.</p>
                 </li>
                 <li class="sp-shift is-night" data-driver="1">
                   <div class="sp-top">
                     <span class="sp-who">Driver 1</span>
-                    <span class="sp-when">3:00 AM – 7:00 AM</span>
+                    <span class="sp-when">~11:00 PM start</span>
                     <span class="sp-tag">Night</span>
                   </div>
-                  <p class="sp-note">Driver 1's second stint, back behind the wheel after eight hours off.</p>
+                  <p class="sp-note">Pass Christian → <strong>Lafayette, LA area</strong> (Love's or Pilot, no Buc-ee's here until 2027), ~175 mi, ~2h35m. Refuel, real break, this is the start of the graveyard stretch. Swap to Driver 2.</p>
                 </li>
-                <li class="sp-shift" data-driver="x">
+                <li class="sp-shift is-night" data-driver="2">
                   <div class="sp-top">
-                    <span class="sp-who">Driver 2 or 3</span>
-                    <span class="sp-when">7:00 AM onward</span>
+                    <span class="sp-who">Driver 2</span>
+                    <span class="sp-when">~1:45 AM start</span>
+                    <span class="sp-tag">Night</span>
+                  </div>
+                  <p class="sp-note">Lafayette → <strong>Shreveport/Ruston, LA area</strong> (Love's or Pilot; Ruston's Buc-ee's isn't open until 2027 either), ~210 mi, ~3h10m. The deepest part of the graveyard shift. Refuel, swap to Driver 3.</p>
+                </li>
+                <li class="sp-shift is-night" data-driver="3">
+                  <div class="sp-top">
+                    <span class="sp-who">Driver 3</span>
+                    <span class="sp-when">~5:15 AM start</span>
+                    <span class="sp-tag">Dawn</span>
+                  </div>
+                  <p class="sp-note">Shreveport → <strong>Buc-ee's, Terrell, TX</strong>, ~155 mi, ~2h20m. Same store as Day 1. It means you're almost home. Quick top-off, swap to Driver 1.</p>
+                </li>
+                <li class="sp-shift" data-driver="1">
+                  <div class="sp-top">
+                    <span class="sp-who">Driver 1</span>
+                    <span class="sp-when">~7:45 AM start</span>
                     <span class="sp-tag">Daylight</span>
                   </div>
-                  <p class="sp-note">Whoever slept best.</p>
+                  <p class="sp-note">Terrell → Irving, ~35 mi, ~40 min. Home stretch, no fuel needed.</p>
                 </li>
               </ol>
-              <p class="note">This is the most fatigued stretch of the whole trip. It comes right after a 6 AM wake-up and a full beach day, on top of five days without a real night's sleep. Build in one real 30-45 minute stop around hour 8 or 9, not just a gas splash-and-go. A hot meal and a short walk resets everyone better than another energy drink. The 15.5 hours is driving time only, so with stops the rotation runs past 7 AM and you land in Irving mid-morning.</p>
+              <p class="note">This is the most fatigued stretch of the whole trip. It comes right after a 6 AM wake-up and a full beach day, on top of five days without a real night's sleep. Refuel at every stop regardless of the gauge, and make the Lafayette stop a real 30-45 minute break, not a splash of gas, it lands right as the graveyard shift starts. Mileages and clock times are estimates rounded for planning, actual pace depends on traffic and how long each stop runs. Expect to land in Irving mid-morning rather than exactly on the 15.5-hour driving mark.</p>
             </div>
-          </div>
-          <div class="card">
-            <h3>Pit stops along the way</h3>
-            <ul class="places" role="list">
-              <li><span class="pin">1</span><div><strong>Buc-ee's, Daytona Beach, FL</strong> <span>— you're already in the area. Swing by before you leave to gas up and restock the cooler for real this time. Florida's longest car wash is here too, if anyone wants a look.</span></div></li>
-              <li><span class="pin">2</span><div><strong>Buc-ee's, Robertsdale/Loxley, AL</strong> <span>— same store as the outbound leg, now in reverse, a few hours in near Mobile. Natural place for the Driver 1-to-Driver 2 handoff.</span></div></li>
-              <li><span class="pin">3</span><div><strong>Buc-ee's, Pass Christian, MS</strong> <span>— on I-10 near Gulfport and Biloxi, Mississippi's first location. A second real option before the long Louisiana stretch.</span></div></li>
-              <li><span class="pin">4</span><div><strong>Louisiana, no Buc-ee's yet</strong> <span>— the Ruston and Lafayette locations aren't open until 2027. Whichever clean Love's or Pilot is closest works fine here. This is roughly the graveyard-shift stretch, so make it the real 30-45 minute stop, not just a splash of gas.</span></div></li>
-              <li><span class="pin">5</span><div><strong>Buc-ee's, Terrell, TX</strong> <span>— same store as Day 1. This time it means you're almost home, about 35 minutes from Irving.</span></div></li>
-            </ul>
-            <p class="note">Buc-ee's locations verified open as of August 2026.</p>
           </div>
         </div>
       </section>
