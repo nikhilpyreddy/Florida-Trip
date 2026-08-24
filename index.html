@@ -397,6 +397,7 @@ ul.steps li:last-child{margin-bottom:0;}
   box-shadow:0 1px 4px rgba(7,37,58,.15);
 }
 .trip-nav a:active{transform:scale(.97);}
+.today-badge{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;font-weight:600;color:#fff;background:var(--sun);padding:2px 7px;border-radius:999px;margin-left:6px;vertical-align:middle;}
 
 .trip-days{padding:56px 0 0;}
 .day{display:grid;grid-template-columns:96px 1fr;gap:0 28px;position:relative;}
@@ -950,6 +951,26 @@ ul.steps li:last-child{margin-bottom:0;}
       <div class="node"><span class="dot" style="--nc:#EF7548"></span>Ormond</div>
     </div>
 
+    <div class="card">
+      <h3>Pack &amp; prep before you leave</h3>
+      <ul class="steps">
+        <li><strong>Water shoes and a dry bag</strong> for Ginnie Springs, plus reef-safe sunscreen and a hat for both beach days.</li>
+        <li><strong>A cooler with drinks and snacks</strong> for the car. Cuts down on stops during both overnight drives.</li>
+        <li><strong>Car chargers or a power bank</strong> for three phones running navigation and the Universal app all day.</li>
+        <li><strong>Cash</strong> for HarborWalk parking (about $20) and the Henderson Beach entry fee ($6).</li>
+        <li><strong>Universal tickets and Express Pass linked</strong> in the app before you arrive, plus a screenshot saved offline as backup.</li>
+        <li><strong>Offline maps downloaded</strong> for the I-10 stretch through the Panhandle. Signal gets thin overnight.</li>
+        <li>A light layer for park AC and the 7 AM Ormond sunrise. It's cooler out there than the daytime heat suggests.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Weather, tolls, and heat</h3>
+      <p>September is peak Atlantic hurricane season, the historical peak lands right around Sep 10. Check the National Hurricane Center in the days before you leave and have a Plan B in mind for the Destin leg if a system is tracking toward the Gulf.</p>
+      <p>A daily afternoon thunderstorm in Orlando is normal for September, outdoor rides pause briefly and it clears fast. It's not a sign to change plans. Heat index will likely run mid-90s on the beach days and at the springs, so push water early rather than waiting until someone feels thirsty.</p>
+      <p>Florida's toll roads (I-4, the Beachline, Orlando's expressways) are mostly cashless. Confirm your rental is set up with a transponder or toll-by-plate billing before you're on I-4 at rush hour.</p>
+    </div>
+
     <div class="trip-days">
 
       <!-- DAY 1 -->
@@ -962,6 +983,15 @@ ul.steps li:last-child{margin-bottom:0;}
           <div class="leg">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             Irving → Destin · 12 hrs · 690 mi
+          </div>
+          <div class="card">
+            <h3>Suggested driver rotation</h3>
+            <ul class="steps">
+              <li><strong>9:00 PM – 1:00 AM</strong> — Driver 1</li>
+              <li><strong>1:00 AM – 5:00 AM</strong> — Driver 2, the hardest shift, latest and darkest</li>
+              <li><strong>5:00 AM – 9:00 AM</strong> — Driver 3, into Destin</li>
+            </ul>
+            <p class="note">Swap earlier if anyone gets drowsy. Nobody should be driving on zero sleep since the day before, so figure out who can nap in the afternoon before departure.</p>
           </div>
         </div>
       </section>
@@ -1089,6 +1119,17 @@ ul.steps li:last-child{margin-bottom:0;}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D5A6C" stroke-width="2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
             Ormond → Irving · 15.5 hrs · 1,050 mi · overnight, no hotel
           </div>
+          <div class="card">
+            <h3>Suggested driver rotation</h3>
+            <ul class="steps">
+              <li><strong>3:00 PM – 7:00 PM</strong> — Driver 1</li>
+              <li><strong>7:00 PM – 11:00 PM</strong> — Driver 2</li>
+              <li><strong>11:00 PM – 3:00 AM</strong> — Driver 3, the graveyard shift</li>
+              <li><strong>3:00 AM – 7:00 AM</strong> — Driver 1 again</li>
+              <li><strong>7:00 AM onward</strong> — Driver 2 or 3, whoever slept best</li>
+            </ul>
+            <p class="note">This is the most fatigued stretch of the whole trip. It comes right after a 6 AM wake-up and a full beach day, on top of five days without a real night's sleep. Build in one real 30-45 minute stop around hour 8 or 9, not just a gas splash-and-go. A hot meal and a short walk resets everyone better than another energy drink.</p>
+          </div>
         </div>
       </section>
 
@@ -1141,6 +1182,27 @@ ul.steps li:last-child{margin-bottom:0;}
   }
   if(location.hash)handleHash();
   window.addEventListener('hashchange',handleHash);
+
+  function isoDate(d){
+    var y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');
+    return y+'-'+m+'-'+day;
+  }
+  var tripDates={d1:'2026-09-04',d2:'2026-09-05',d3:'2026-09-06',d4:'2026-09-07',d5:'2026-09-08',d6:'2026-09-09',d7:'2026-09-10'};
+  var todayISO=isoDate(new Date());
+  var todayId=null;
+  Object.keys(tripDates).forEach(function(k){if(tripDates[k]===todayISO)todayId=k;});
+  if(todayId){
+    var navLink=document.querySelector('.trip-nav a[href="#'+todayId+'"]');
+    if(navLink)navLink.insertAdjacentHTML('beforeend','<span class="today-badge">TODAY</span>');
+    if(todayId==='d4'){
+      var epicBtn=document.querySelector('.park-btn[data-park="epic"]');
+      if(epicBtn)epicBtn.insertAdjacentHTML('beforeend','<span class="today-badge">TODAY</span>');
+    }
+    if(todayId==='d5'){
+      var ioaBtn=document.querySelector('.park-btn[data-park="ioa"]');
+      if(ioaBtn)ioaBtn.insertAdjacentHTML('beforeend','<span class="today-badge">TODAY</span>');
+    }
+  }
 })();
 </script>
 
