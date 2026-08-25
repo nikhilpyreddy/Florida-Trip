@@ -726,7 +726,67 @@ ul.steps li:last-child{margin-bottom:0;}
 .leg svg{flex:none;}
 
 /* ===========================
-   19. CLOSER
+   19. STOPS TAB
+   =========================== */
+.leg-block{margin:0 0 var(--s6);}
+.leg-block:last-child{margin-bottom:0;}
+.leg-block-title{font-size:1.15rem;font-weight:700;letter-spacing:-.015em;margin-bottom:4px;}
+.leg-block-sub{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);}
+.leg-block-lede{font-size:.95rem;color:var(--ink-soft);margin:10px 0 0;max-width:62ch;}
+
+.stop-list{list-style:none;margin:var(--s4) 0 0;padding:0;display:grid;gap:12px;position:relative;}
+.stop-list::before{
+  content:"";position:absolute;left:19px;top:38px;bottom:38px;width:2px;
+  background:color-mix(in srgb,var(--phase) 22%,var(--line));z-index:0;
+}
+.stop-card{
+  position:relative;z-index:1;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r-card);
+  padding:16px 18px;box-shadow:var(--shadow-xs);
+  display:grid;grid-template-columns:38px 1fr;gap:14px;
+  transition:box-shadow .2s var(--ease),border-color .2s var(--ease);
+}
+.stop-card:hover{box-shadow:var(--shadow-sm);border-color:color-mix(in srgb,var(--phase) 28%,var(--line));}
+.stop-card.is-start{background:color-mix(in srgb,var(--phase) 5%,var(--card));}
+.stop-num{
+  width:38px;height:38px;border-radius:50%;flex:none;
+  background:linear-gradient(145deg,color-mix(in srgb,var(--phase) 85%,#fff),var(--phase));
+  color:#fff;display:grid;place-items:center;
+  font-family:var(--display);font-weight:700;font-size:.9rem;
+  box-shadow:0 3px 10px color-mix(in srgb,var(--phase) 30%,transparent);
+}
+.stop-top{display:flex;flex-wrap:wrap;align-items:center;gap:7px 10px;margin-bottom:2px;}
+.stop-name{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--display);font-weight:700;font-size:1.02rem;letter-spacing:-.01em;
+  color:var(--ink);text-decoration:none;
+  border-bottom:1.5px solid color-mix(in srgb,var(--phase) 45%,transparent);
+}
+.stop-name:hover{color:var(--phase-deep);border-color:var(--phase-deep);}
+.stop-name svg{flex:none;opacity:.55;}
+.stop-brand{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:2px 8px;border-radius:var(--r-pill);font-weight:500;flex:none;
+}
+.stop-brand.bucees{background:#FFF4EE;color:#A94E22;border:1px solid rgba(169,78,34,.16);}
+.stop-brand.loves{background:#E8F0FF;color:#2452A8;border:1px solid rgba(36,82,168,.16);}
+.stop-brand.pilot{background:#E8F8F4;color:#1A7A67;border:1px solid rgba(26,122,103,.1);}
+.stop-addr{font-size:.82rem;color:var(--ink-soft);margin:0 0 10px;}
+.stop-meta{
+  display:flex;flex-wrap:wrap;gap:5px 16px;
+  font-family:var(--mono);font-size:.74rem;color:var(--ink-soft);
+  margin:0 0 8px;padding-bottom:8px;border-bottom:1px solid var(--line);
+}
+.stop-meta b{color:var(--ink);font-weight:500;}
+.stop-driver{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:.72rem;color:var(--phase-deep);font-weight:500;
+  margin:0 0 8px;
+}
+.stop-why{font-size:.87rem;color:var(--ink-soft);line-height:1.5;margin:0;}
+
+/* ===========================
+   20. CLOSER
    =========================== */
 .closer{
   background:linear-gradient(165deg,#07253A 0%,#0C3550 50%,#07253A 100%);
@@ -763,13 +823,13 @@ ul.steps li:last-child{margin-bottom:0;}
 }
 
 /* ===========================
-   20. FOCUS
+   21. FOCUS
    =========================== */
 :focus-visible{outline:2px solid var(--gulf-deep);outline-offset:3px;border-radius:4px;}
 .statusbar :focus-visible,.hero :focus-visible{outline-color:#9FE3D2;}
 
 /* ===========================
-   21. RESPONSIVE
+   22. RESPONSIVE
    =========================== */
 @media(max-width:860px){
   .legs2{grid-template-columns:1fr;}
@@ -832,6 +892,11 @@ ul.steps li:last-child{margin-bottom:0;}
     content:"\2192";margin-left:8px;
     color:color-mix(in srgb,var(--ink-soft) 55%,var(--paper));
   }
+  .stop-card{grid-template-columns:32px 1fr;gap:11px;padding:14px 15px;}
+  .stop-num{width:32px;height:32px;font-size:.8rem;}
+  .stop-list::before{left:16px;}
+  .stop-name{font-size:.95rem;}
+  .stop-meta{gap:4px 12px;font-size:.7rem;}
 }
 @media(max-width:400px){
   .wrap{padding:0 16px;}
@@ -843,7 +908,7 @@ ul.steps li:last-child{margin-bottom:0;}
 }
 
 /* ===========================
-   22. PRINT
+   23. PRINT
    =========================== */
 @media print{
   *{transition:none!important;transform:none!important;animation:none!important;box-shadow:none!important;}
@@ -925,17 +990,32 @@ ul.steps li:last-child{margin-bottom:0;}
   .sp-tag{background:#fff!important;border-color:#ccc!important;color:#333!important;}
   .sp-note{color:#333!important;}
 
+  .leg-block-sub{color:#666!important;}
+  .leg-block-lede{color:#333!important;}
+  .stop-list::before{background:#ccc!important;}
+  .stop-card{border-color:#ccc!important;background:#fff!important;}
+  .stop-card.is-start{background:#f7f7f7!important;}
+  .stop-num{background:#444!important;box-shadow:none!important;}
+  .stop-name{color:#000!important;border-color:#999!important;}
+  .stop-name svg{display:none!important;}
+  .stop-brand{border-color:#ccc!important;background:#eee!important;color:#333!important;}
+  .stop-addr{color:#333!important;}
+  .stop-meta{color:#333!important;border-color:#ccc!important;}
+  .stop-meta b{color:#000!important;}
+  .stop-driver{color:#333!important;}
+  .stop-why{color:#333!important;}
+
   .strip{display:none;}
   .day{page-break-inside:avoid;}
-  .card,.cond,.warn,.legcard,.hours{page-break-inside:avoid;}
+  .card,.cond,.warn,.legcard,.hours,.stop-card{page-break-inside:avoid;}
   .shift-plan{page-break-inside:avoid;}
   .checklist li{page-break-inside:avoid;}
-  #tab-trip,.park-panel{page-break-before:always;}
+  #tab-trip,#tab-stops,.park-panel{page-break-before:always;}
   .closer{page-break-before:always;}
 }
 
 /* ===========================
-   23. REDUCED MOTION
+   24. REDUCED MOTION
    =========================== */
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto;}
@@ -975,6 +1055,7 @@ ul.steps li:last-child{margin-bottom:0;}
 <nav class="tab-bar" role="tablist" aria-label="Trip sections" id="tablist">
   <button id="tabbtn-prep" role="tab" aria-selected="false" aria-controls="tab-prep" tabindex="-1" data-tab="prep">Prep</button>
   <button id="tabbtn-trip" role="tab" aria-selected="false" aria-controls="tab-trip" tabindex="-1" data-tab="trip">Road Trip</button>
+  <button id="tabbtn-stops" role="tab" aria-selected="false" aria-controls="tab-stops" tabindex="-1" data-tab="stops">Stops</button>
   <button id="tabbtn-universal" role="tab" aria-selected="true" aria-controls="tab-universal" tabindex="0" data-tab="universal">Universal</button>
 </nav>
 
@@ -1122,7 +1203,7 @@ ul.steps li:last-child{margin-bottom:0;}
                     <span class="sp-when">~9:40 PM start</span>
                     <span class="sp-tag">Night</span>
                   </div>
-                  <p class="sp-note">Terrell → <strong>Love's Travel Stop, Vicksburg, MS</strong> (I-20 Exit 165), ~330 mi, ~4h45m. The longest single stretch of the whole trip and the hardest shift, latest and darkest. No real alternative stop exists in this gap, Louisiana has no Buc-ee's yet. Refuel, real break, swap to Driver 3.</p>
+                  <p class="sp-note">Terrell → <strong>Love's Travel Stop, Vicksburg, MS</strong> (I-20 Exit 15), ~330 mi, ~4h45m. The longest single stretch of the whole trip and the hardest shift, latest and darkest. No real alternative stop exists in this gap, Louisiana has no Buc-ee's yet. Refuel, real break, swap to Driver 3.</p>
                 </li>
                 <li class="sp-shift is-night" data-driver="3">
                   <div class="sp-top">
@@ -1144,6 +1225,7 @@ ul.steps li:last-child{margin-bottom:0;}
               <p class="note">Refuel at every stop above regardless of what the gauge reads, that's what keeps fuel and driver swaps the same event instead of two separate things to track. Swap earlier if anyone gets drowsy, and nobody should be driving on zero sleep since the day before, so figure out who can nap in the afternoon before departure. Mileages and times are estimates, actual pace will vary with traffic.</p>
             </div>
           </div>
+          <a href="#stops" class="crosslink" data-switch="stops">Addresses and Google Maps links for these stops &rarr;</a>
         </div>
       </section>
 
@@ -1345,6 +1427,7 @@ ul.steps li:last-child{margin-bottom:0;}
               <p class="note">This is the most fatigued stretch of the whole trip. It comes right after a 6 AM wake-up and a full beach day, on top of five days without a real night's sleep. Refuel at every stop regardless of the gauge, and make the Lafayette stop a real 30-45 minute break, not a splash of gas, it lands right as the graveyard shift starts. Mileages and clock times are estimates rounded for planning, actual pace depends on traffic and how long each stop runs. Expect to land in Irving mid-morning rather than exactly on the 15.5-hour driving mark.</p>
             </div>
           </div>
+          <a href="#stops" class="crosslink" data-switch="stops">Addresses and Google Maps links for these stops &rarr;</a>
         </div>
       </section>
 
@@ -1361,6 +1444,178 @@ ul.steps li:last-child{margin-bottom:0;}
     </div><!-- /.trip-days -->
   </div><!-- /.wrap -->
 </div><!-- /#tab-trip -->
+
+<!-- ============================================================ -->
+<!-- STOPS TAB                                                     -->
+<!-- ============================================================ -->
+<div id="tab-stops" class="tab-panel" role="tabpanel" aria-labelledby="tabbtn-stops" tabindex="0">
+  <div class="wrap">
+
+    <h2 class="panel-title">Fuel &amp; driver stops</h2>
+    <div class="panel-sub">Both overnight legs · every stop does both jobs at once</div>
+    <p class="panel-lede">Ten stops across the two long drives, spaced to this vehicle's real fuel range (a Standard SUV like your SIXT booking realistically covers 380-450 miles per tank) and lined up with the driver rotation so nobody has to think about fuel and shift changes separately. Tap any name to open it in Google Maps in a new tab. The full narrative and clock times for each day live in Road Trip.</p>
+
+    <a href="#d1" class="crosslink" data-switch="trip" data-anchor="d1">&larr; Day-by-day itinerary</a>
+
+    <!-- LEG 1 -->
+    <section class="leg-block" data-phase="gulf">
+      <div class="leg-block-head">
+        <h3 class="leg-block-title">Leg 1 &middot; Irving &rarr; Destin</h3>
+        <div class="leg-block-sub">Fri Sep 4, 9:00 PM depart &middot; ~690 mi &middot; ~12 hrs</div>
+        <p class="leg-block-lede">I-20 E through Shreveport, I-59 S, I-65 S through Mobile, then US-98 into Destin. Three stops carry four driver shifts.</p>
+      </div>
+
+      <ol class="stop-list" role="list">
+        <li class="stop-card">
+          <div class="stop-num">1</div>
+          <div>
+            <div class="stop-top">
+              <a class="stop-name" href="https://www.google.com/maps/search/?api=1&query=Buc-ee's%2C%20506%20W%20IH-20%2C%20Terrell%2C%20TX%2075160" target="_blank" rel="noopener noreferrer">Buc-ee's, Terrell, TX<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="visually-hidden">(opens Google Maps in a new tab)</span></a>
+              <span class="stop-brand bucees">Buc-ee's</span>
+            </div>
+            <p class="stop-addr">506 W IH-20, Terrell, TX 75160</p>
+            <div class="stop-meta"><span>~35 mi from Irving</span><span>~40 min</span><span><b>~9:40 PM</b> arrival</span></div>
+            <div class="stop-driver">Driver 1 &rarr; Driver 2</div>
+            <p class="stop-why">Top off fully even though the tank is nearly full. The next stop is ~330 miles out, close to the edge of this vehicle's range, so leaving here full is what makes that gap safe.</p>
+          </div>
+        </li>
+        <li class="stop-card">
+          <div class="stop-num">2</div>
+          <div>
+            <div class="stop-top">
+              <a class="stop-name" href="https://www.google.com/maps/search/?api=1&query=Love's%20Travel%20Stop%2C%20700%20Ceres%20Blvd%2C%20Vicksburg%2C%20MS%2039183" target="_blank" rel="noopener noreferrer">Love's Travel Stop, Vicksburg, MS<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="visually-hidden">(opens Google Maps in a new tab)</span></a>
+              <span class="stop-brand loves">Love's</span>
+            </div>
+            <p class="stop-addr">700 Ceres Blvd, Vicksburg, MS 39183 &middot; I-20 Exit 15</p>
+            <div class="stop-meta"><span>~330 mi from Terrell</span><span>~4h 45m</span><span><b>~2:30 AM</b> arrival</span></div>
+            <div class="stop-driver">Driver 2 &rarr; Driver 3</div>
+            <p class="stop-why">The longest single stretch of the whole trip and the hardest shift, latest and darkest. No real alternative exists in this gap, Louisiana has no Buc-ee's yet. Refuel and take a real break here.</p>
+          </div>
+        </li>
+        <li class="stop-card">
+          <div class="stop-num">3</div>
+          <div>
+            <div class="stop-top">
+              <a class="stop-name" href="https://www.google.com/maps/search/?api=1&query=Buc-ee's%2C%2020403%20County%20Road%2068%2C%20Robertsdale%2C%20AL%2036567" target="_blank" rel="noopener noreferrer">Buc-ee's, Robertsdale/Loxley, AL<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="visually-hidden">(opens Google Maps in a new tab)</span></a>
+              <span class="stop-brand bucees">Buc-ee's</span>
+            </div>
+            <p class="stop-addr">20403 County Road 68, Robertsdale, AL 36567 &middot; I-10/I-65 interchange</p>
+            <div class="stop-meta"><span>~240 mi from Vicksburg</span><span>~3h 30m</span><span><b>~6:15 AM</b> arrival</span></div>
+            <div class="stop-driver">Driver 3 &rarr; Driver 1</div>
+            <p class="stop-why">The chain's first store outside Texas. Coffee and breakfast here before the short final push into Destin.</p>
+          </div>
+        </li>
+      </ol>
+      <p class="note">Then ~90 miles into Destin, ~1h 30m, no stop needed. Arrival ~7:45-8:00 AM, with buffer before the 9-10 AM beach start.</p>
+    </section>
+
+    <!-- LEG 2 -->
+    <section class="leg-block" data-phase="sun">
+      <div class="leg-block-head">
+        <h3 class="leg-block-title">Leg 2 &middot; Ormond Beach &rarr; Irving</h3>
+        <div class="leg-block-sub">Wed Sep 9, ~3:00 PM depart &middot; ~1,050-1,100 mi &middot; ~15.5 hrs driving</div>
+        <p class="leg-block-lede">I-10 W across the Gulf Coast, then I-49 N to Shreveport and I-20 W into Texas. Longer than Leg 1, so it needs seven stops instead of three.</p>
+      </div>
+
+      <ol class="stop-list" role="list">
+        <li class="stop-card is-start">
+          <div class="stop-num">1</div>
+          <div>
+            <div class="stop-top">
+              <a class="stop-name" href="https://www.google.com/maps/search/?api=1&query=Buc-ee's%2C%202330%20Gateway%20North%20Drive%2C%20Daytona%20Beach%2C%20FL" target="_blank" rel="noopener noreferrer">Buc-ee's, Daytona Beach, FL<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="visually-hidden">(opens Google Maps in a new tab)</span></a>
+              <span class="stop-brand bucees">Buc-ee's</span>
+            </div>
+            <p class="stop-addr">2330 Gateway North Drive, Daytona Beach, FL</p>
+            <div class="stop-meta"><span>Before departure</span><span><b>~3:00 PM</b> wheels rolling</span></div>
+            <div class="stop-driver">Driver 1 starts</div>
+            <p class="stop-why">You're already in the area. Fuel up and restock the cooler on the way out, easier than a detour once you're rolling. Florida's longest car wash is here too, if anyone's curious.</p>
+          </div>
+        </li>
+        <li class="stop-card">
+          <div class="stop-num">2</div>
+          <div>
+            <div class="stop-top">
+              <a class="stop-name" href="https://www.google.com/maps/search/?api=1&query=Love's%20Travel%20Stop%2C%203204%20SE%20County%20Road%20255%2C%20Lee%2C%20FL%2032059" target="_blank" rel="noopener noreferrer">Love's Travel Stop, Lee, FL<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="visually-hidden">(opens Google Maps in a new tab)</span></a>
+              <span class="stop-brand loves">Love's</span>
+            </div>
+            <p class="stop-addr">3204 SE County Road 255, Lee, FL 32059 &middot; I-10 Exit 262</p>
+            <div class="stop-meta"><span>~250 mi from Daytona</span><span>~3h 45m</span><span><b>~6:45 PM</b> arrival</span></div>
+            <div class="stop-driver">Driver 1 &rarr; Driver 2</div>
+            <p class="stop-why">Near Tallahassee. No Buc-ee's on this stretch yet, that location isn't expected until 2027.</p>
+          </div>
+        </li>
+        <li class="stop-card">
+          <div class="stop-num">3</div>
+          <div>
+            <div class="stop-top">
+              <a class="stop-name" href="https://www.google.com/maps/search/?api=1&query=Buc-ee's%2C%2020403%20County%20Road%2068%2C%20Robertsdale%2C%20AL%2036567" target="_blank" rel="noopener noreferrer">Buc-ee's, Robertsdale/Loxley, AL<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="visually-hidden">(opens Google Maps in a new tab)</span></a>
+              <span class="stop-brand bucees">Buc-ee's</span>
+            </div>
+            <p class="stop-addr">20403 County Road 68, Robertsdale, AL 36567 &middot; I-10/I-65 interchange</p>
+            <div class="stop-meta"><span>~170 mi from Lee</span><span>~2h 30m</span><span><b>~9:15 PM</b> arrival</span></div>
+            <div class="stop-driver">Driver 2 &rarr; Driver 3</div>
+            <p class="stop-why">Same store as Leg 1, now in reverse.</p>
+          </div>
+        </li>
+        <li class="stop-card">
+          <div class="stop-num">4</div>
+          <div>
+            <div class="stop-top">
+              <a class="stop-name" href="https://www.google.com/maps/search/?api=1&query=Buc-ee's%2C%208245%20Firetower%20Road%2C%20Pass%20Christian%2C%20MS%2039571" target="_blank" rel="noopener noreferrer">Buc-ee's, Pass Christian, MS<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="visually-hidden">(opens Google Maps in a new tab)</span></a>
+              <span class="stop-brand bucees">Buc-ee's</span>
+            </div>
+            <p class="stop-addr">8245 Firetower Road, Pass Christian, MS 39571 &middot; I-10 Exit 24</p>
+            <div class="stop-meta"><span>~105 mi from Robertsdale</span><span>~1h 35m</span><span><b>~11:00 PM</b> arrival</span></div>
+            <div class="stop-driver">Driver 3 &rarr; Driver 1</div>
+            <p class="stop-why">Mississippi's first Buc-ee's, near Gulfport and Biloxi.</p>
+          </div>
+        </li>
+        <li class="stop-card">
+          <div class="stop-num">5</div>
+          <div>
+            <div class="stop-top">
+              <a class="stop-name" href="https://www.google.com/maps/search/?api=1&query=Pilot%20Travel%20Center%2C%202112%20Rees%20St%2C%20Breaux%20Bridge%2C%20LA" target="_blank" rel="noopener noreferrer">Pilot Travel Center, Breaux Bridge, LA<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="visually-hidden">(opens Google Maps in a new tab)</span></a>
+              <span class="stop-brand pilot">Pilot</span>
+            </div>
+            <p class="stop-addr">2112 Rees St, Breaux Bridge, LA &middot; I-10 Exit 109, near Lafayette</p>
+            <div class="stop-meta"><span>~175 mi from Pass Christian</span><span>~2h 35m</span><span><b>~1:45 AM</b> arrival</span></div>
+            <div class="stop-driver">Driver 1 &rarr; Driver 2</div>
+            <p class="stop-why">No Buc-ee's in Louisiana until 2027. Make this the real 30-45 minute break, not a splash of gas, it's the start of the graveyard stretch.</p>
+          </div>
+        </li>
+        <li class="stop-card">
+          <div class="stop-num">6</div>
+          <div>
+            <div class="stop-top">
+              <a class="stop-name" href="https://www.google.com/maps/search/?api=1&query=Love's%20Travel%20Stop%2C%205430%20N%20Market%20St%2C%20Shreveport%2C%20LA" target="_blank" rel="noopener noreferrer">Love's Travel Stop, Shreveport, LA<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="visually-hidden">(opens Google Maps in a new tab)</span></a>
+              <span class="stop-brand loves">Love's</span>
+            </div>
+            <p class="stop-addr">5430 N Market St, Shreveport, LA &middot; I-49 Exit 215</p>
+            <div class="stop-meta"><span>~210 mi from Breaux Bridge</span><span>~3h 10m</span><span><b>~5:15 AM</b> arrival</span></div>
+            <div class="stop-driver">Driver 2 &rarr; Driver 3</div>
+            <p class="stop-why">The deepest part of the graveyard shift. 24/7, well-lit, opened 2023.</p>
+          </div>
+        </li>
+        <li class="stop-card">
+          <div class="stop-num">7</div>
+          <div>
+            <div class="stop-top">
+              <a class="stop-name" href="https://www.google.com/maps/search/?api=1&query=Buc-ee's%2C%20506%20W%20IH-20%2C%20Terrell%2C%20TX%2075160" target="_blank" rel="noopener noreferrer">Buc-ee's, Terrell, TX<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="visually-hidden">(opens Google Maps in a new tab)</span></a>
+              <span class="stop-brand bucees">Buc-ee's</span>
+            </div>
+            <p class="stop-addr">506 W IH-20, Terrell, TX 75160</p>
+            <div class="stop-meta"><span>~155 mi from Shreveport</span><span>~2h 20m</span><span><b>~7:45 AM</b> arrival</span></div>
+            <div class="stop-driver">Driver 3 &rarr; Driver 1</div>
+            <p class="stop-why">Same store as Leg 1. This time it means you're almost home.</p>
+          </div>
+        </li>
+      </ol>
+      <p class="note">Then ~35 miles into Irving, ~40 min, no stop needed. Arrival ~8:30 AM, comfortably ahead of the 4 PM deadline.</p>
+      <p class="note">Addresses and locations verified open as of August 2026. Mileages and clock times are rounded estimates built from aggregated point-to-point distances, not a single routed calculation, actual pace will vary with traffic and stop length.</p>
+    </section>
+
+  </div><!-- /.wrap -->
+</div><!-- /#tab-stops -->
 
 <!-- ============================================================ -->
 <!-- UNIVERSAL TAB                                                 -->
@@ -1784,7 +2039,7 @@ ul.steps li:last-child{margin-bottom:0;}
     if(!h)return;
     if(/^d[1-7]$/.test(h)){setTab('trip');goTo(h);}
     else if(h==='epic'||h==='ioa'){setTab('universal');setPark(h);toTop('tab-universal');}
-    else if(h==='prep'||h==='trip'){setTab(h);toTop('tab-'+h);}
+    else if(h==='prep'||h==='trip'||h==='stops'){setTab(h);toTop('tab-'+h);}
     else if(h==='universal'){setTab('universal');toTop('tab-universal');}
     else{
       /* any other in-page id: open the tab that owns it, then jump */
